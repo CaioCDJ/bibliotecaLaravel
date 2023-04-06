@@ -11,21 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('Admins', function(Blueprint $table){
-        $table->uuid('id')->primary();
-        $table->string("name");
-        $table->string("email");
-        $table->text('password');
-        $table->timestamps();
-      });
-
-      Schema::create('Clients', function(Blueprint $table){
+      Schema::create('Users', function(Blueprint $table){
         $table->uuid('id')->primary();
         $table->string('name');
         $table->string('email');
         $table->text('password');
-        $table->text('address'); 
-        $table->integer('phone');
+        $table->string('role');
+        $table->text('address')->nullable(); 
+        $table->double('phone')->nullable();
         $table->timestamps();
       });
 
@@ -38,7 +31,7 @@ return new class extends Migration
         $table->text('publisher');
         $table->dateTime('releaseDt');
         $table->string('category');
-        $table->text('imgUrl');
+        $table->text('imgUrl')->nullable();
         $table->integer('released');
         $table->integer('available');
         $table->integer('qt');
@@ -50,12 +43,9 @@ return new class extends Migration
         $table->timestamp('borrowedDt');
         $table->timestamp('returnDt');
         $table->boolean('returned');
-        $table->foreignUuid('clientId')->references('id')->on('clients');
+        $table->foreignUuid('userId')->references('id')->on('users');
         $table->foreignUuid('bookId')->references('id')->on('books');
       });
-
-      Schema::drop('users');
-
     }
 
     /**
@@ -63,7 +53,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-      Schema::dropIfExists('clients');  
+      Schema::dropIfExists('users');  
       Schema::dropIfExists('admins');  
       Schema::dropIfExists('books');  
       Schema::dropIfExists('borrows');  

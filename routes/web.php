@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,16 +23,16 @@ Route::get('/', function () {
 
 Route::get('/sign-in',function () {
   return view("pages/signin");
-});
+})->name('signin.index');
 
 // redirecionamento
 Route::get('/cadastro', function(){
-  return redirect()->route("sign-in");
+  return redirect()->route("/sign-in");
 });
 
 Route::get("/login", function(){
   return view('pages/login');
-});
+})->name("login.index");
 
 Route::get("/book/{id}", function($id){
   return "Id do produto é: ".$id;
@@ -45,12 +46,14 @@ Route::name("admin.")->group(function(){
   Route::get('admin/dashboard/admins',function(){});
 });
 */
-
 // -- Rotas api --
 
-// executando a funcao do controller 
-//                      classe                  metodo
-Route::get('/client',[ClientController::class, 'index'] );
-
-Route::get('/client/{id}',[ClientController::class, 'getById'] );
+Route::controller(UserController::class)->group(function(){
+  // executando a funcao do controller 
+  //                      classe                  metodo
+  Route::get('/client','index' );
+  Route::get('/client/{id}','getById');
+  Route::post('/sign-in','createClient')->name("signin.req");
+  Route::post("client/login",'login')->name("login.req");
+});
 

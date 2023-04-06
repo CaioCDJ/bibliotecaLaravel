@@ -8,7 +8,7 @@
   </head>
   <body class="bg-light">
    
-  @yield('conteudo')
+  @yield('content')
 
   @stack('scripts')
   

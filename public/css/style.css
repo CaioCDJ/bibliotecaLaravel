@@ -3,8 +3,13 @@ nav{
 }
 
 footer{
-
   background-color: #222;
   color: #f8f8f8;
   padding: 30px;
+}
+
+.flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
