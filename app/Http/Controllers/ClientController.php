@@ -9,11 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ClientController extends Controller {
 
-  public function index(){
-    
-    $clientes = array('alguem',"aaaaaaaa","dddddd" );
 
-    return $clientes; 
+  public function login(){
+
+    return view("pages/account");
   }
 
   /**
@@ -25,11 +24,11 @@ class ClientController extends Controller {
    * @return client
    * @throws conditon
    **/
-  public function getById( $id){
+  public function getById($id){
 
     $user = Client::all();
 
-    return json_encode(dd($user));
+    return view('pages/account',compact('id'));
   } 
 
   public function addUser(){} 

@@ -13,16 +13,16 @@ return new class extends Migration
     {
       Schema::create('Admins', function(Blueprint $table){
         $table->uuid('id')->primary();
-        $table->text("name");
-        $table->text("email");
+        $table->string("name");
+        $table->string("email");
         $table->text('password');
         $table->timestamps();
       });
 
       Schema::create('Clients', function(Blueprint $table){
         $table->uuid('id')->primary();
-        $table->text('name');
-        $table->text('email');
+        $table->string('name');
+        $table->string('email');
         $table->text('password');
         $table->text('address'); 
         $table->integer('phone');
@@ -31,11 +31,14 @@ return new class extends Migration
 
       Schema::create('Books', function(Blueprint $table){
         
-        $table->uuid()->primary();
-        $table->text('title');
-        $table->text('author');
+        $table->uuid('id')->primary();
+        $table->string('title');
+        $table->string('author');
         $table->text('desc');
         $table->text('publisher');
+        $table->dateTime('releaseDt');
+        $table->string('category');
+        $table->text('imgUrl');
         $table->integer('released');
         $table->integer('available');
         $table->integer('qt');
@@ -46,9 +49,12 @@ return new class extends Migration
         $table->uuid('id')->primary();
         $table->timestamp('borrowedDt');
         $table->timestamp('returnDt');
-        $table->uuid('userId');
-        $table->uuid('bookId');
+        $table->boolean('returned');
+        $table->foreignUuid('clientId')->references('id')->on('clients');
+        $table->foreignUuid('bookId')->references('id')->on('books');
       });
+
+      Schema::drop('users');
 
     }
 
@@ -57,9 +63,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-      Schema::dropIfExists('Clients');  
-      Schema::dropIfExists('Admins');  
-      Schema::dropIfExists('Books');  
-      Schema::dropIfExists('Borrows');  
+      Schema::dropIfExists('clients');  
+      Schema::dropIfExists('admins');  
+      Schema::dropIfExists('books');  
+      Schema::dropIfExists('borrows');  
     }
 };
