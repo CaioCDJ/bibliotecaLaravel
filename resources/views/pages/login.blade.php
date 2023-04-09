@@ -4,15 +4,18 @@
 
 <form class="flex-center" method="post" action="{{ route('login.req') }}">
   @csrf
+  <img  src="{{URL('imgs/logo.png')}}" alt="">
   <h2>Login</h2>
-  <input required type="email" name="email" placeholder="exemplo@exemplo.com">
+  <input required type="email" name="email" placeholder="Email:">
 
-  <input required type="password" name="password" placeholder="1263912">
+  <input required type="password" name="password" placeholder="Senha:">
 
   <input class="btnForm" required type="submit" value="Confirmar">
 
-  <p>Não tem uma conta?</p>
-  <a class="btnForm">Cadastre-se</a>
+  <p>
+  Não tem uma conta?
+  <a href="{{URL('/sign-in')}}" >Cadastre-se</a>
+  </p>
 
 </form>
 

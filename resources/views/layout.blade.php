@@ -8,9 +8,11 @@
   </head>
   <body class="bg-light">
    
+  @include('includes/navbar')
   @yield('content')
 
   @stack('scripts')
   
+  @include('includes/footer')
   </body>
 </html>

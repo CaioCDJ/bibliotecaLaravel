@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 Route::get('/sign-in',function () {
-  return view("pages/signin");
+  return view("pages/signIn");
 })->name('signin.index');
 
 // redirecionamento
@@ -37,6 +37,13 @@ Route::get("/login", function(){
 Route::get("/book/{id}", function($id){
   return "Id do produto é: ".$id;
 })->whereUuid("id");
+
+Route::get("/about",function(){
+  return view('pages/about');
+})->name("about");
+Route::get("/sobre",function(){
+  return redirect()->route("about");
+});
 
 /* -- agrupamento de rotas --
 Route::name("admin.")->group(function(){

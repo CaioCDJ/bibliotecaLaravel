@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-sm ">
     <div class="container-fluid ">
-      <a class="navbar-brand " href="#">
+      <a class="navbar-brand " href="{{URL('/')}}">
         <img src="{{URL('imgs/logo.png')}}" height="24" width="30" alt="LOGO">
         Biblioteca
       </a>
@@ -12,12 +12,13 @@
         <ul class="navbar-nav ">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown link
+              Categorias
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="#">Linguagens</a></li>
+              <li><a class="dropdown-item" href="#">Arquitetura</a></li>
+              <li><a class="dropdown-item" href="#">Banco de dados</a></li>
+              <li><a class="dropdown-item" href="#">Derivados</a></li>
             </ul>
           </li>
 
@@ -25,7 +26,7 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Course</a>
+            <a class="nav-link" href="{{URL('/login')}}">Login</a>
           </li>
         </ul>
 
