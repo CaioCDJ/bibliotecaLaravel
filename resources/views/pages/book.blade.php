@@ -17,10 +17,7 @@
 
 {{-- Comentario --}}
 
-@include('includes/navbar')
- 
- <h1>É o book</h1>
 
-@include('includes/footer')
+
 
 @endsection

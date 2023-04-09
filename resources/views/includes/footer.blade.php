@@ -1,18 +1,58 @@
 <footer>
-  
-  <div class="footer-up">
-    <div></div>
-    <div></div>
-    <div></div>
 
+  <div class="footer-up ">
+
+    <div class="">
+      <a href="">
+        <img class="footer-logo" src="{{URL('imgs/logo.png')}}">
+      </a>
+    </div>
+
+    <ul class="footer-pages flex-center">
+      <li>
+        <a href="">Home</a>
+      </li>
+
+      <li>
+        <a href="">Login</a>
+      </li>
+
+      <li>
+        <a href="">Cadastro</a>
+      </li>
+
+      <li>
+        <a href="">Livros</a>
+      </li>
+
+      <li>
+        <a href="">Sobre</a>
+      </li>
+    </ul>
+
+    <ul class="footer-social">
+
+      <li>
+        <a href="">
+          <i class="bi bi-facebook"></i>
+        </a>
+      </li>
+
+
+      <li>
+        <a href="">
+          <i class="bi bi-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a href="">
+          <i class="bi bi-rss"></i>
+        </a>
+      </li>
+    </ul>
   </div>
 
   <div class="footer-bottom">
-    <div>
-      <a><i></i></a>
-      <a><i></i></a>
-      <a><i></i></a>
-    </div>
-    <p>@Copyrights.All risghts reserved</p>
+    <p>@Copyrights.All rights reserved</p>
   </div>
 </footer>

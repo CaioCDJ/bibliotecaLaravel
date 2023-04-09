@@ -35,8 +35,8 @@ Route::get("/login", function(){
 })->name("login.index");
 
 Route::get("/book/{id}", function($id){
-  return "Id do produto é: ".$id;
-})->whereUuid("id");
+  return view("pages/book");
+});
 
 Route::get("/about",function(){
   return view('pages/about');
