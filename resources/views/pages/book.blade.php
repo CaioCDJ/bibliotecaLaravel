@@ -17,6 +17,14 @@
 
 {{-- Comentario --}}
 
+<div>
+ <img src="{{$book->imgUrl}}">
+ <h1>{{$book->title}}</h1>
+  
+  <p>{{$book->qtPages}}</p>
+  <p>{{$book->author}}</p>
+  <p>{{$book->desc}}</p>
+</div>
 
 
 

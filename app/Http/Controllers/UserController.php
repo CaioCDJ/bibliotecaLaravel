@@ -11,14 +11,23 @@ class UserController extends Controller
 
   public function login(Request $request)
   {
-    $credentials = $request->validate([
-      'email' => ['required'],
+
+    $request->validate([
+      'email' => ['required','email'],
       'password' => ['required']
+    ], [
+      'email.required' => "O email é obrigatorio.",
+      'email.email' => "Não é um email.",
+      'password.required' => "A senha é obrigatoria."
     ]);
 
-    if(Auth::attempt($credentials)){
-   
-      return redirect()->route("login.index");    
+    // works
+    $credentials = array('email' => $request->email, 'password' => bcrypt($request->password));
+
+    if (Auth::attempt($credentials)) {
+      return redirect()->route("login.index");
+    } else {
+      return redirect()->route('login.index')->withErrors(["notFound" => "Usuario não encontrado"]);
     }
   }
 
@@ -33,8 +42,6 @@ class UserController extends Controller
    **/
   public function getById($id)
   {
-
-
     return view('pages/account', compact('id'));
   }
 

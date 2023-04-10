@@ -29,12 +29,13 @@ return new class extends Migration
         $table->string('author');
         $table->text('desc');
         $table->text('publisher');
+        $table->integer("qtPages");
         $table->dateTime('releaseDt');
         $table->string('category');
         $table->text('imgUrl')->nullable();
-        $table->integer('released');
         $table->integer('available');
         $table->integer('qt');
+        $table->timestamps();
 
       });
 

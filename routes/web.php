@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('index');
+
+Route::get('/index',function(){
+  return redirect()->route('/');
 });
 
 Route::get('/sign-in',function () {
@@ -34,8 +40,8 @@ Route::get("/login", function(){
   return view('pages/login');
 })->name("login.index");
 
-Route::get("/book/{id}", function($id){
-  return view("pages/book");
+Route::get("/books", function(){
+  return view("pages/books");
 });
 
 Route::get("/about",function(){
@@ -43,6 +49,19 @@ Route::get("/about",function(){
 })->name("about");
 Route::get("/sobre",function(){
   return redirect()->route("about");
+});
+
+Route::controller(BookController::class)->group(function(){
+  Route::get('/books','books');
+  Route::get('/book/{id}','getById');
+  Route::post("/book",'addBook')->name('book.add');
+  
+});
+
+Route::controller(AdminController::class)->group(function(){
+  Route::get('/admin/dashboard','dashboard')->name('admin.dashboard');
+  Route::get('/admin/books', 'books')->name("admin.books");
+  Route::get("/admin/addBook",'addBook')->name('admin.book.add');
 });
 
 /* -- agrupamento de rotas --
@@ -53,6 +72,7 @@ Route::name("admin.")->group(function(){
   Route::get('admin/dashboard/admins',function(){});
 });
 */
+
 // -- Rotas api --
 
 Route::controller(UserController::class)->group(function(){
