@@ -1,27 +1,48 @@
 
+const url = 'http://biblioteca.test/admin/book/';
 
-function addBook(url){
-Swal.fire({
-    html: `
-    <form method="post" action="http://biblioteca.test/book">
-      <input required type="text" name="title" placeholder="titulo">
-      <input required type="text" name="author" placeholder="autor">
-      <input required type="text" name="publisher" placeholder="editora">
-      <input required type="number" name="qtPages" placeholder="numero de paginas">
-      <input required type="date" name="releaseDt" placeholder="data de lançamento">
-      <select required name="category">
-        <option>Linguagens</option>
-        <option>Arquitetura</option>
-        <option>Banco de dados</option>
-        <option>Redes</option>
-      </select>
-      <input required type="text" name="imgUrl" placeholder="url img">
-      <input required type="number" name="qt" placeholder="Quantidade:">
-      <textarea name="desc">
-      </textarea>
-      <input required type="submit" value="Enviar">
-    </form>
-  `,
-  showConfirmButton: false
+const rows = document.querySelector('tbody').querySelectorAll("tr");
+
+rows.forEach(row => {
+
+  const ths = row.querySelectorAll("th");
+
+  row.querySelector('.btnDel').addEventListener('click', async () => {
+    await remove(
+      ths[0].innerText,
+      ths[1].innerText
+    );
   });
+})
+
+
+function remove(id, title) {
+  Swal.fire({
+    title: 'Voce tem certeza?',
+    text: `O ${title} sera deletado.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'confirmar!'
+  }).then((result) => {
+
+    if (result.isConfirmed) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+      $.ajax({
+          url: url+id,
+          type:'POST',
+          cache: false,
+          processData: false,
+          success:function(response){
+            location.reload();
+          }
+        })
+    }
+  })
 }
+

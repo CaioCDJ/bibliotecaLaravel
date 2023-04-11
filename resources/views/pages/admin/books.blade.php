@@ -23,28 +23,7 @@
 
 @section('content')
 
-{{-- Comentario
-<form method="post" action="{{route('book.add')}}">
-@csrf
-<input required type="text" name="title" placeholder="titulo">
-<input required type="text" name="author" placeholder="autor">
-<input required type="text" name="publisher" placeholder="editora">
-<input required type="number" name="qtPages" placeholder="numero de paginas">
-<input required type="date" name="releaseDt" placeholder="data de lançamento">
-<select required name="category">
-  <option>Linguagens</option>
-  <option>Arquitetura</option>
-  <option>Banco de dados</option>
-  <option>Redes</option>
-</select>
-<input required type="text" name="imgUrl" placeholder="url img">
-<input required type="number" name="qt" placeholder="Quantidade:">
-<textarea name="desc">
-  </textarea>
-<input required type="submit" value="Enviar">
 
-</form>
---}}
 
 <div class="container">
 
@@ -58,7 +37,7 @@
   </div>
   
   <div class="row">
-   <table class="table table-striped-rows">
+   <table id="table" class="table table-striped-rows">
     <thead>
       <tr class="table-dark">
         <th scope="col">id</th>
@@ -86,8 +65,16 @@
           <th>{{$book->category}}</th>
           <th>{{$book->qt}}</th>
           <th>{{$book->available}}</th>
-          <th><a>alterar</a></th>
-          <th><a>deletar</a></th>
+          <th>
+            <a class="tableOp text-primary" title="Modificar">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </th>
+          <th>
+            <a class="tableOp btnDel text-danger" title="Deletar">
+              <i class="bi bi-trash"></i>
+            </a>
+          </th>
         </tr>
        @endforeach
     </tbody>

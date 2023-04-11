@@ -60,9 +60,12 @@ Route::controller(BookController::class)->group(function(){
 
 Route::controller(AdminController::class)->group(function(){
   Route::get('/admin/dashboard','dashboard')->name('admin.dashboard');
+  Route::get('/admin','dashboard');
   Route::get('/admin/books', 'books')->name("admin.books");
   Route::get("/admin/addBook",'addBook')->name('admin.book.add');
+  Route::post("/admin/book/{id}",'removeBook')->name('admin.book.remove');
   Route::get('/admin/users','users')->name('admin.users');
+  Route::get('/admin/admins','admins')->name("admin.admins");
 });
 
 /* -- agrupamento de rotas --

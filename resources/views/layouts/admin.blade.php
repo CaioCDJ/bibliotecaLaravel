@@ -3,12 +3,13 @@
 
   <head>
     <title>@yield('title')</title>
+    <meta name="csrf-token" content="{{csrf_token()}}"> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @stack('styles')
   </head>
-
-  <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-closed sidebar-collapse">
+ 
+  <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-closed sidebar-collapse sidebar-dark">
 
     <div class="wrapper">
 
@@ -21,7 +22,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
+                <h1 class="m-0">@yield('title')</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -33,8 +34,11 @@
           </div>
 
         </div>
+        
+        <section class="content">
+          @yield('content')
+        </section>
 
-        @yield('content')
       </div>
 
     </div>

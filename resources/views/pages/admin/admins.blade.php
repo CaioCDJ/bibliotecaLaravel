@@ -1,5 +1,5 @@
 @extends('layouts/admin')
-@section('title','admin-users')
+@section('title','admins')
 
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
@@ -23,31 +23,33 @@
 <div class="container">
 
   <div class="row">
+    <div class="col-md-8">
+     Lista de Admins
+    </div>
+    <div class="col-6 col-md-4">
+    <a href="{{route('admin.book.add')}}">Adicionar Admin</a>
+    </div>
   </div>
   
   <div class="row">
    <table class="table ">
     <thead>
-      <tr class="table-dark">
+      <tr>
         <th scope="col">id</th>
         <th scope="col">nome</th>
         <th scope="col">email</th>
-        <th scope="col">Endereço</th>
-        <th scope="col">Telefone</th>
-        <th scope="col">Data de criação</th>
+        <th scope="col">phone</th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-       @foreach($users as $user)
+       @foreach($admins as $admin)
         <tr>
-          <th>{{$user->id}}</th>
-          <th>{{$user->name}}</th>
-          <th>{{$user->email}}</th>
-          <th>{{$user->address}}</th>
-          <th>{{$user->phone}}</th>
-          <th>{{$user->created_at}}</th>
+          <th>{{$admin->id}}</th>
+          <th>{{$admin->name}}</th>
+          <th>{{$admin->email}}</th>
+          <th>{{$admin->phone}}</th>
           <th><a>alterar</a></th>
           <th><a>deletar</a></th>
         </tr>

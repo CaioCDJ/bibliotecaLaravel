@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-secondary elevation-4">
   <!-- Brand Logo -->
   <a href="index3.html" class="brand-link">
     <img src="{{URL('imgs/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -25,7 +25,7 @@
           </a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item ">
           <a href="#" class="nav-link">
             <i class="nav-icon bi bi-book"></i>
             <p>
@@ -35,19 +35,19 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('admin.books')}}">
+              <a class="nav-link" href="{{route('admin.books')}}">
                 Livros
                 <i></i>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('admin.book.add')}}">
+              <a class="nav-link" href="{{route('admin.book.add')}}">
                 Adicionar livros
                 <i></i>
               </a>
             </li>
             <li class="nav-item">
-              <a>Emprestimos</a>
+              <a class="nav-link">Emprestimos</a>
             </li>
           </ul>
         </li>
@@ -63,7 +63,7 @@
         </li>
         
         <li class="nav-item dark ">
-          <a href="#" class="nav-link ">
+          <a href="{{route('admin.admins')}}" class="nav-link ">
             <i class="nav-icon bi bi-person-vcard"></i>
             <p>
               Admins

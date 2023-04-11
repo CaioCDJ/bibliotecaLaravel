@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailNotify;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -69,7 +71,7 @@ class UserController extends Controller
     $client->email = $request->email;
     $client->phone = $request->phone;
     $client->address = $request->address;
-    $client->role = "client";
+    $client->role = "user";
 
     if ($request->password != $request->confirmPassword) {
       return redirect()->route('login.index')->withErrors(["error" => "senhas diferentes"]);
@@ -79,6 +81,14 @@ class UserController extends Controller
       $client->save();
 
       $id = $client->id;
+
+      $emailData = [
+        'title'=>'Ola ',
+        'body'=> "Seja bem vindo a biblioteca."
+      ];
+
+      Mail::to("caiodjesus1@hotmail.com")->send(new MailNotify($emailData));
+
       return view('pages/account', compact("id"));
     }
   }
