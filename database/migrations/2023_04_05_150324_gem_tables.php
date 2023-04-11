@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('Users', function(Blueprint $table){
+      Schema::dropIfExists("users");
+      Schema::dropIfExists("books");
+      Schema::dropIfExists("borrows");
+      
+      Schema::create('users', function(Blueprint $table){
         $table->uuid('id')->primary();
         $table->string('name');
-        $table->string('email');
+        $table->string('email')->unique();
         $table->text('password');
         $table->string('role');
         $table->text('address')->nullable(); 
@@ -22,10 +26,9 @@ return new class extends Migration
         $table->timestamps();
       });
 
-      Schema::create('Books', function(Blueprint $table){
-        
+      Schema::create('books', function(Blueprint $table){
         $table->uuid('id')->primary();
-        $table->string('title');
+        $table->text('title');
         $table->string('author');
         $table->text('desc');
         $table->text('publisher');
@@ -39,13 +42,16 @@ return new class extends Migration
 
       });
 
-      Schema::create('Borrows', function(Blueprint $table){
+      Schema::create('borrows', function(Blueprint $table){
+        $table->dropForeign('userId');
+        $table->dropForeign('bookId');
+
         $table->uuid('id')->primary();
         $table->timestamp('borrowedDt');
         $table->timestamp('returnDt');
         $table->boolean('returned');
-        $table->foreignUuid('userId')->references('id')->on('users');
-        $table->foreignUuid('bookId')->references('id')->on('books');
+        $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        $table->foreignUuid('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
       });
     }
 

@@ -58,9 +58,9 @@
   </div>
   
   <div class="row">
-   <table class="table ">
+   <table class="table table-striped-rows">
     <thead>
-      <tr>
+      <tr class="table-dark">
         <th scope="col">id</th>
         <th scope="col">Title</th>
         <th scope="col">Author</th>
