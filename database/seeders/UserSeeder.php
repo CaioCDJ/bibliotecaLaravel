@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
       'password' => bcrypt('123456'),
       'phone' => 1235484,
       'address' => "Rua sem saida n44, centro",
-      'role' => "user"
+      'isAdmin' => false
     ]);
    
     User::create([
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
       'password' => bcrypt('654321'),
       'phone' => 1235484,
       'address' => "Rua sem saida n44, centro",
-      'role' => "admin"
+      'isAdmin' => true
     ]);
   }
 }

@@ -19,7 +19,7 @@ rows.forEach(row => {
 function remove(id, title) {
   Swal.fire({
     title: 'Voce tem certeza?',
-    text: `O ${title} sera deletado.`,
+    text: `${title} sera deletado.`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',

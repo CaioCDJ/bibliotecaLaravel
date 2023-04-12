@@ -20,7 +20,7 @@ return new class extends Migration
         $table->string('name');
         $table->string('email')->unique();
         $table->text('password');
-        $table->string('role');
+        $table->boolean('isAdmin');
         $table->text('address')->nullable(); 
         $table->double('phone')->nullable();
         $table->timestamps();

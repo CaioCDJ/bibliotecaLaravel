@@ -15,7 +15,15 @@
 
 @section('content')
 
-{{-- Comentario --}}
+<section id="main" class="">
+
+  <h1>Seja bem vindo a sua biblioteca virtual</h1>
+
+  <form>
+    <input type="text" placeholder="Buscar livro"> 
+  </form>
+
+</section>
 
 
 @endsection

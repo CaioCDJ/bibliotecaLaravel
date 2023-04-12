@@ -24,10 +24,20 @@ class UserController extends Controller
     ]);
 
     // works
-    $credentials = array('email' => $request->email, 'password' => bcrypt($request->password));
+    $credentials = array('email' => $request->email, 'password' => $request->password);
 
     if (Auth::attempt($credentials)) {
-      return redirect()->route("login.index");
+      
+      $request->session()->regenerate();
+
+      $user = User::where("email",$request->email)->first();
+      
+      if($user->role== "admin"){  
+        return redirect()->intended("/admin");
+      }
+      else{
+        return redirect()->intended("/");
+      }
     } else {
       return redirect()->route('login.index')->withErrors(["notFound" => "Usuario não encontrado"]);
     }
@@ -87,21 +97,15 @@ class UserController extends Controller
         'body'=> "Seja bem vindo a biblioteca."
       ];
 
-      Mail::to("caiodjesus1@hotmail.com")->send(new MailNotify($emailData));
-
       return view('pages/account', compact("id"));
     }
   }
 
-  public function updateUser()
-  {
-  }
+  public function logout(Request $request){
+    auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-  public function updatePassword()
-  {
-  }
-
-  public function delete()
-  {
-  }
+    return redirect()->route('index');
+  } 
 }

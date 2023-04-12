@@ -4,7 +4,7 @@
 
 <form class="flex-center" method="post" action="{{ route('login.req') }}">
   @csrf
-  <img  src="{{URL('imgs/logo.png')}}" alt="">
+  <img src="{{URL('imgs/logo.png')}}" alt="">
   <h2>Login</h2>
   <input required type="email" name="email" placeholder="Email:">
 
@@ -13,18 +13,11 @@
   <input class="btnForm" required type="submit" value="Confirmar">
 
   <p>
-  Não tem uma conta?
-  <a href="{{URL('/sign-in')}}" >Cadastre-se</a>
+    Não tem uma conta?
+    <a href="{{URL('/sign-in')}}">Cadastre-se</a>
   </p>
 
 </form>
-
-@error('email')
-{{$message}}
-@enderror
-@error('email')
-{{$message}}
-@enderror
 
 @endsection
 
@@ -34,10 +27,19 @@
 <script src="{{asset('js/alerts.js')}}"></script>
 
 @error('notFound')
- <script>
-  error("","{{$message}}")
- </script>
+<script>
+  error("", "{{$message}}")
+</script>
 @enderror
+
+@error('email')
+<script>
+  error("", "{{$message}}")
+</script>
+@enderror
+
+
+
 
 
 @endpush

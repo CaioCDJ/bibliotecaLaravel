@@ -63,7 +63,7 @@
           <th>{{$book->qtPages}}</th>
           <th><?php 
             $dt = new DateTime($book->releaseDt);
-            echo $dt->format('d/m/y');
+            echo $dt->format('d/m/Y');
             ?></th>
           <th>{{$book->category}}</th>
           <th>{{$book->qt}}</th>
