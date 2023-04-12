@@ -40,7 +40,7 @@
    <table id="table" class="table table-striped-rows">
     <thead>
       <tr class="table-dark">
-        <th scope="col">id</th>
+        <th scope="col">id</th> 
         <th scope="col">Title</th>
         <th scope="col">Author</th>
         <th scope="col">Editora</th>
@@ -61,7 +61,10 @@
           <th>{{$book->author}}</th>
           <th>{{$book->publisher}}</th>
           <th>{{$book->qtPages}}</th>
-          <th>{{$book->releaseDt}}</th>
+          <th><?php 
+            $dt = new DateTime($book->releaseDt);
+            echo $dt->format('d/m/y');
+            ?></th>
           <th>{{$book->category}}</th>
           <th>{{$book->qt}}</th>
           <th>{{$book->available}}</th>

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+      Schema::dropIfExists("borrows");
       Schema::dropIfExists("users");
       Schema::dropIfExists("books");
-      Schema::dropIfExists("borrows");
       
       Schema::create('users', function(Blueprint $table){
         $table->uuid('id')->primary();
@@ -43,15 +43,13 @@ return new class extends Migration
       });
 
       Schema::create('borrows', function(Blueprint $table){
-        $table->dropForeign('userId');
-        $table->dropForeign('bookId');
 
         $table->uuid('id')->primary();
         $table->timestamp('borrowedDt');
         $table->timestamp('returnDt');
         $table->boolean('returned');
-        $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-        $table->foreignUuid('book_id')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
+        $table->foreignUuid('userId')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        $table->foreignUuid('bookId')->references('id')->on('books')->onDelete('cascade')->onUpdate('cascade');
       });
     }
 

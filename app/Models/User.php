@@ -11,4 +11,8 @@ class User extends  Authenticable
 {
   // extends default Model
   use HasFactory, HasUuids;
+
+  protected $fillable = [
+    'name', 'email', 'password', 'phone', 'address','role'
+  ];
 }

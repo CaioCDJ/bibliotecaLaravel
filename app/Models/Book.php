@@ -8,5 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
+  
+  protected $fillable = [
+    'title',
+    'author',
+    'desc',
+    'publisher',
+    'qtpages',
+    'category',
+    'imgUrl',
+    'available',
+    'realeseDt',
+    'qt'
+  ];
+
 }

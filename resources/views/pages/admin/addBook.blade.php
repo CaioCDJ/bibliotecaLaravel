@@ -46,6 +46,7 @@
         <option>Linguagens</option>
         <option>Arquitetura</option>
         <option>Banco de dados</option>
+        <option>Derivados</option>
         <option>Redes</option>
       </select>
 
@@ -55,7 +56,10 @@
 
       <textarea id="txtArea" class="form-control inputs" name="desc"></textarea>
     
-      <input required class="btn btn-primary" type="submit" value="Enviar">
+    <div class="d-grid gap-2 mt-2">
+      <input required class="btn btn-primary btn-lg" type="submit" value="Enviar">
+    </div>
+
     </div>
   </form>
 </div>
