@@ -9,7 +9,11 @@
   <body class="bg-light">
    
   @include('includes/navbar')
-  @yield('content')
+  
+  <main>
+
+    @yield('content')
+  </main>
 
   @stack('scripts')
   

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,43 +20,43 @@ use Illuminate\Support\Facades\Route;
 
 // -- Rotas das paginas do front-end --
 
-Route::get('/', function () {
-  return view('welcome');
-})->name('index');
+Route::controller(SiteController::class)->group(function () {
 
-Route::get('/index', function () {
-  return redirect()->route('/');
+  Route::get('/', function () {
+    return view('welcome');
+  })->name('index');
+
+  Route::get('/index', function () {
+    return redirect()->route('/');
+  });
+
+  Route::get('/sign-in', 'signIn')->name('signin.index');
+
+  // redirecionamento
+  Route::get('/cadastro', function () {
+    return redirect()->route("/sign-in");
+  });
+
+  Route::get("/login", 'login')->name("login.index");
+
+  Route::get("/books", function () {
+    return view("pages/books");
+  })->name("books");
+
+  Route::get("/about", function () {
+    return view('pages/about');
+  })->name("about");
+  Route::get("/sobre", function () {
+    return redirect()->route("about");
+  });
+  
+  Route::controller(BookController::class)->group(function () {
+    Route::get('/books', 'books')->name('books');
+    Route::get('/book/{id}', 'getById');
+    Route::post("/book", 'addBook')->name('book.add');
+  });
 });
 
-Route::get('/sign-in', function () {
-  return view("pages/signIn");
-})->name('signin.index');
-
-// redirecionamento
-Route::get('/cadastro', function () {
-  return redirect()->route("/sign-in");
-});
-
-Route::get("/login", function () {
-  return view('pages/login');
-})->name("login.index");
-
-Route::get("/books", function () {
-  return view("pages/books");
-});
-
-Route::get("/about", function () {
-  return view('pages/about');
-})->name("about");
-Route::get("/sobre", function () {
-  return redirect()->route("about");
-});
-
-Route::controller(BookController::class)->group(function () {
-  Route::get('/books', 'books')->name('books');
-  Route::get('/book/{id}', 'getById');
-  Route::post("/book", 'addBook')->name('book.add');
-});
 
 Route::group(["middleware", 'auth'], function () {
 

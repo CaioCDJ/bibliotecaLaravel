@@ -132,6 +132,20 @@ class BookSeeder extends Seeder
       'available'=>1,
       'qt'=>1
     ]);
+
+    Book::create([
+      'title'=>"Introdução ao MongoDB",
+      'author'=>"David Hows (Autor), Peter Membrey (Autor), Eelco Plugge (Autor)",
+      'desc'=>"Você precisa de uma introdução rápida e fácil aos bancos de dados MongoDB e NoSQL? O livro Introdução ao MongoDB, mostra como um sistema de banco de dados orientado a documentos difere de um banco de dados relacional, explica como instalá-lo e começar a usá-lo. Você também conhecerá o básico sobre o design do MongoDB, incluindo a indexação geoespacial, aprenderá a navegar, a visualizar e a fazer consultas em seu banco de dados e a usar o GridFS com um pouco de Python",
+      'publisher'=>"Novatec",
+      'qtpages'=>168,
+      'category'=>"banco de dados",
+      'imgUrl'=>"https://m.media-amazon.com/images/P/B082HZTJHZ.01._SCLZZZZZZZ_SX500_.jpg",
+      'releaseDt'=> new DateTime("05-03-2015 00:00:00"),
+      'available'=>1,
+      'qt'=>1
+    ]);
+
     /*
     Book::create([
       'title'=>"",

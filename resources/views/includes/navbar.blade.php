@@ -18,10 +18,11 @@
               Categorias
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="">Linguagens</a></li>
-              <li><a class="dropdown-item" href="#">Arquitetura</a></li>
-              <li><a class="dropdown-item" href="#">Banco de dados</a></li>
-              <li><a class="dropdown-item" href="#">Derivados</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=linguagens">Linguagens</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=arquitetura">Arquitetura</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=banco+de+dados">Banco de dados</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=derivados">Derivados</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=redes">Derivados</a></li>
             </ul>
           </li>
           @auth

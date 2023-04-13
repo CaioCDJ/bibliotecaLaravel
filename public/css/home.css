@@ -1,0 +1,35 @@
+#firstView{
+  height: 100vh;
+  flex-flow: column;
+  background: url('https://images.unsplash.com/photo-1562932831-afcfe48b5786?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1215&q=80') no-repeat;
+  background-size: cover;
+}
+
+#firstView form{
+  width: 30%;
+  margin-top: 20px;
+}
+
+#firstView form input{
+  text-align: center;
+  border-radius: 15px;
+  height: 50px;
+  width: 100%;
+  border: none;
+  font-size: 20px;
+  padding-inline: 15px;
+  background: #f8f8f8ff;
+}
+
+h1{
+  font-size: 3.6rem;
+  font-weight: 700;
+  text-shadow: 1px 1px black;
+}
+
+section{
+  height: auto;
+  overflow: hidden;
+  padding: 20px;
+  padding-top: 60px;
+}
