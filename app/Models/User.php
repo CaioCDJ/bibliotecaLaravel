@@ -15,4 +15,8 @@ class User extends  Authenticable
   protected $fillable = [
     'name', 'email', 'password', 'phone', 'address','role'
   ];
+
+  public function borrows(){
+    return $this->hasMany(Borrow::class);
+  }
 }

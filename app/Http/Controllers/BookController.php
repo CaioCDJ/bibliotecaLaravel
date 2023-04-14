@@ -79,7 +79,6 @@ class BookController extends Controller
       } else if (empty($category) && !empty($author)) {
         $books = Book::where('author', $author)->get();
       }
-
       return view("pages/books", compact('books'));
     }
   }

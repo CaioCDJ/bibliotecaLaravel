@@ -62,6 +62,8 @@ Route::group(["middleware", 'auth'], function () {
 
   Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
+  Route::get('/borrow/{book_id}',[UserController::class, 'borrow'])->name('borrow.new');
+
   Route::group(['middleware' => 'isAdmin'], function () {
     Route::controller(AdminController::class)->group(function () {
       Route::get('/admin/dashboard', 'dashboard')->name('admin.dashboard');
@@ -71,6 +73,8 @@ Route::group(["middleware", 'auth'], function () {
       Route::post("/admin/book/{id}", 'removeBook')->name('admin.book.remove');
       Route::get('/admin/users', 'users')->name('admin.users');
       Route::get('/admin/admins', 'admins')->name("admin.admins");
+      Route::get('/admin/borrows',"borrows")->name('admin.borrows.index');
+      Route::get('/admin/borrow/{id}','returnBook')->name("admin.borrows.returned");
     });
   });
 });

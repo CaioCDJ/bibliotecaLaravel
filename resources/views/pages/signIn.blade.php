@@ -15,7 +15,7 @@
     <input class="btnForm" required type="submit" value="Confirmar">
   <p>
     Já possui uma conta?
-    <a href="" >Faça o login</a>
+    <a href="{{route('login.index')}}" >Faça o login</a>
   </p>
 
 </form>

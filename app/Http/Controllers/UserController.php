@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MailNotify;
+use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\User;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +19,7 @@ class UserController extends Controller
   {
 
     $request->validate([
-      'email' => ['required','email'],
+      'email' => ['required', 'email'],
       'password' => ['required']
     ], [
       'email.required' => "O email é obrigatorio.",
@@ -27,15 +31,14 @@ class UserController extends Controller
     $credentials = array('email' => $request->email, 'password' => $request->password);
 
     if (Auth::attempt($credentials)) {
-      
+
       $request->session()->regenerate();
 
-      $user = User::where("email",$request->email)->first();
-      
-      if($user->role== "admin"){  
+      $user = User::where("email", $request->email)->first();
+
+      if ($user->role == "admin") {
         return redirect()->intended("/admin");
-      }
-      else{
+      } else {
         return redirect()->intended("/");
       }
     } else {
@@ -55,6 +58,42 @@ class UserController extends Controller
   public function getById($id)
   {
     return view('pages/account', compact('id'));
+  }
+
+  public function borrow($book_id)
+  {
+
+    // verificar se  o livro ja não foi pego
+
+    $book = Book::find($book_id);
+
+    if ($book->available < 0) {
+    }
+
+    $qtBorrow = Borrow::where([
+      "userId" => auth()->user()->id,
+      "returned"=>false
+    ])->count();
+
+
+    if($qtBorrow>=2){
+      return "devolve meus livros, animal ";
+    }
+
+    $dt = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
+
+    $borrow = new Borrow();
+
+    $borrow->bookId = $book_id;
+    $borrow->userId = auth()->user()->id;
+    $borrow->returnDt = $dt->modify("-7 day");
+    $borrow->returned = false;
+    $borrow->save();
+
+    $book->available--;
+    Book::find($book_id)->update(['available' => $book->available]);
+
+    return view('pages/books/' . $book_id);
   }
 
   public function createClient(Request $request)
@@ -81,7 +120,7 @@ class UserController extends Controller
     $client->email = $request->email;
     $client->phone = $request->phone;
     $client->address = $request->address;
-    $client->role = "user";
+    $client->isAdmin = false;
 
     if ($request->password != $request->confirmPassword) {
       return redirect()->route('login.index')->withErrors(["error" => "senhas diferentes"]);
@@ -93,19 +132,20 @@ class UserController extends Controller
       $id = $client->id;
 
       $emailData = [
-        'title'=>'Ola ',
-        'body'=> "Seja bem vindo a biblioteca."
+        'title' => 'Ola ',
+        'body' => "Seja bem vindo a biblioteca."
       ];
 
       return view('pages/account', compact("id"));
     }
   }
 
-  public function logout(Request $request){
+  public function logout(Request $request)
+  {
     auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
     return redirect()->route('index');
-  } 
+  }
 }

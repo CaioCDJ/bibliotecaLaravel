@@ -11,7 +11,6 @@
   @include('includes/navbar')
   
   <main>
-
     @yield('content')
   </main>
 

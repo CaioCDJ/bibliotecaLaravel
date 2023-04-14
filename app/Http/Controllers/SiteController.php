@@ -31,7 +31,7 @@ class SiteController extends Controller
     if (auth()->check()) {
       return view('welcome');
     } else {
-      return view('pages/sign-in');
+      return view('pages/signIn');
     }
   }
 }

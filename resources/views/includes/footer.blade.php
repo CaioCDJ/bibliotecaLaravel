@@ -10,7 +10,7 @@
 
     <ul class="footer-pages flex-center">
       <li>
-        <a href="">Home</a>
+        <a href="{{route('index')}}">Home</a>
       </li>
 
       <li>
@@ -22,11 +22,11 @@
       </li>
 
       <li>
-        <a href="">Livros</a>
+        <a href="{{route('books')}}">Livros</a>
       </li>
 
       <li>
-        <a href="">Sobre</a>
+        <a href="{{route('about')}}">Sobre</a>
       </li>
     </ul>
 

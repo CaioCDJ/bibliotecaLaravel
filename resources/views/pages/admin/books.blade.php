@@ -20,10 +20,7 @@
 
 @endpush
 
-
 @section('content')
-
-
 
 <div class="container">
 
@@ -61,10 +58,12 @@
           <th>{{$book->author}}</th>
           <th>{{$book->publisher}}</th>
           <th>{{$book->qtPages}}</th>
-          <th><?php 
+          <th>
+          @php 
             $dt = new DateTime($book->releaseDt);
-            echo $dt->format('d/m/Y');
-            ?></th>
+          @endphp
+          {{$dt->format('d/m/Y')}}
+          </th>
           <th>{{$book->category}}</th>
           <th>{{$book->qt}}</th>
           <th>{{$book->available}}</th>
