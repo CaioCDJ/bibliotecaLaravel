@@ -57,12 +57,17 @@ Route::controller(SiteController::class)->group(function () {
   });
 });
 
-
 Route::group(["middleware", 'auth'], function () {
 
-  Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+  Route::controller(UserController::class)->group(function(){
+    Route::get('/client/{id}', 'index')->name('user.account');
+    Route::get('/borrow/{book_id}','borrow')->name('borrow.new');
+    Route::get("/client/{id}/del",'delete')->name('user.del');
+    Route::post("/client/{id}/changePassword",'changePassword')->name('user.password');
+    Route::post("/client/{id}","update")->name('user.update'); 
+  });
 
-  Route::get('/borrow/{book_id}',[UserController::class, 'borrow'])->name('borrow.new');
+  Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
   Route::group(['middleware' => 'isAdmin'], function () {
     Route::controller(AdminController::class)->group(function () {
@@ -80,8 +85,6 @@ Route::group(["middleware", 'auth'], function () {
 });
 
 Route::controller(UserController::class)->group(function () {
-  Route::get('/client', 'index');
   Route::post('/sign-in', 'createClient')->name("signin.req");
   Route::post("client/login", 'login')->name("login.req");
 });
-// -- Rotas api --

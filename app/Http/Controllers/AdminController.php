@@ -20,7 +20,8 @@ class AdminController extends Controller
     $dashboardInfo[1] = User::where('isAdmin', false)->get()->count();
     $dashboardInfo[2] = Borrow::all()->count();
     $dashboardInfo[3] = Borrow::where("returned",false)->get()->count();
-  
+
+    
     return view("pages/admin/dashboard", compact('dashboardInfo'));
   }
 

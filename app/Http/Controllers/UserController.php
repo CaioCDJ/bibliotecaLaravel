@@ -10,6 +10,7 @@ use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -27,73 +28,28 @@ class UserController extends Controller
       'password.required' => "A senha é obrigatoria."
     ]);
 
+    $user = User::where([
+      "email" => $request->email,
+      "active" => true
+    ])->first();
+
     // works
     $credentials = array('email' => $request->email, 'password' => $request->password);
 
-    if (Auth::attempt($credentials)) {
+    if ($user == null) {
+      return redirect()->route('login.index')->withErrors(["notFound" => "Usuario não encontrado"]);
+    } else if (Auth::attempt($credentials)) {
 
       $request->session()->regenerate();
 
-      $user = User::where("email", $request->email)->first();
-
-      if ($user->role == "admin") {
+      if ($user->isAdmin) {
         return redirect()->intended("/admin");
       } else {
-        return redirect()->intended("/");
+        return view('pages/account', compact('user'));
       }
     } else {
       return redirect()->route('login.index')->withErrors(["notFound" => "Usuario não encontrado"]);
     }
-  }
-
-  /**
-   * busca um usuario pelo id
-   *
-   * Undocumented function long description
-   *
-   * @id uuid $var Description
-   * @return client
-   * @throws conditon
-   **/
-  public function getById($id)
-  {
-    return view('pages/account', compact('id'));
-  }
-
-  public function borrow($book_id)
-  {
-
-    // verificar se  o livro ja não foi pego
-
-    $book = Book::find($book_id);
-
-    if ($book->available < 0) {
-    }
-
-    $qtBorrow = Borrow::where([
-      "userId" => auth()->user()->id,
-      "returned"=>false
-    ])->count();
-
-
-    if($qtBorrow>=2){
-      return "devolve meus livros, animal ";
-    }
-
-    $dt = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
-
-    $borrow = new Borrow();
-
-    $borrow->bookId = $book_id;
-    $borrow->userId = auth()->user()->id;
-    $borrow->returnDt = $dt->modify("-7 day");
-    $borrow->returned = false;
-    $borrow->save();
-
-    $book->available--;
-    Book::find($book_id)->update(['available' => $book->available]);
-
-    return view('pages/books/' . $book_id);
   }
 
   public function createClient(Request $request)
@@ -121,6 +77,7 @@ class UserController extends Controller
     $client->phone = $request->phone;
     $client->address = $request->address;
     $client->isAdmin = false;
+    $client->active = true;
 
     if ($request->password != $request->confirmPassword) {
       return redirect()->route('login.index')->withErrors(["error" => "senhas diferentes"]);
@@ -129,14 +86,13 @@ class UserController extends Controller
 
       $client->save();
 
-      $id = $client->id;
 
       $emailData = [
         'title' => 'Ola ',
         'body' => "Seja bem vindo a biblioteca."
       ];
 
-      return view('pages/account', compact("id"));
+      return view('pages/login');
     }
   }
 
@@ -147,5 +103,99 @@ class UserController extends Controller
     $request->session()->regenerateToken();
 
     return redirect()->route('index');
+  }
+
+  /**
+   * busca um usuario pelo id
+   *
+   * Undocumented function long description
+   *
+   * @id uuid $var Description
+   * @return client
+   * @throws conditon
+   **/
+  public function index($id)
+  {
+    $user = User::find($id);
+
+    return view('pages/account', compact('user'));
+  }
+
+
+  public function update(Request $request)
+  {
+    User::where(['id'=>auth()->user()->id])->update([
+      'name'=> $request->name,
+      "address"=>$request->address,
+      "phone"=>$request->phone ]);
+
+    return redirect()->route('user.account',['id'=>auth()->user()->id]);
+  }
+
+  public function changePassword(Request $request)
+  {
+    // validações
+    $user = User::where(
+      [
+        'id' => auth()->user()->id
+      ]
+    )->first();
+
+    if (!Hash::check($request->password, $user->password)) {
+      return redirect()->route('user.account',['id'=>auth()->user()->id])->withErrors(["password" => "Senha atual não compativel"]);
+    }
+
+    if ($request->newPassword == $request->confirmPassword) {
+
+      User::where('id', auth()->user()->id)->update(['password' => bcrypt($request->password)]);
+      return redirect()->route('user.account',['id'=>$user->id]);
+    } else {
+      dd("error");
+    }
+  }
+
+  public function delete(string $id, Request $request)
+  {
+
+    if ($id === auth()->user()->id) {
+      User::where('id', $id)->update(['active' => false]);
+      return redirect()->route('logout');
+    }
+    dd($id);
+  }
+
+  public function borrow($book_id)
+  {
+    // verificar se  o livro ja não foi pego
+
+    $book = Book::find($book_id);
+
+    if ($book->available < 0) {
+    }
+
+    $qtBorrow = Borrow::where([
+      "userId" => auth()->user()->id,
+      "returned" => false
+    ])->count();
+
+
+    if ($qtBorrow >= 2) {
+      return "devolve meus livros, animal ";
+    }
+
+    $dt = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
+
+    $borrow = new Borrow();
+
+    $borrow->bookId = $book_id;
+    $borrow->userId = auth()->user()->id;
+    $borrow->returnDt = $dt->modify("-7 day");
+    $borrow->returned = false;
+    $borrow->save();
+
+    $book->available--;
+    Book::find($book_id)->update(['available' => $book->available]);
+
+    return view('pages/books/' . $book_id);
   }
 }

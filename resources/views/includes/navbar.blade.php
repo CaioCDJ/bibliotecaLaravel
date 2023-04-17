@@ -31,7 +31,7 @@
               <i class="bi bi-person-circle"></i>
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Perfil</a></li>
+              <li><a class="dropdown-item" href="{{route('user.account',['id'=>auth()->user()->id])}}">Perfil</a></li>
 
               @can('isAdmin')
               <li><a class="dropdown-item" href="{{route('admin.dashboard')}}">Dashboard</a></li>

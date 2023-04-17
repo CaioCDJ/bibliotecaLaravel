@@ -15,7 +15,6 @@ rows.forEach(row => {
   });
 })
 
-
 function remove(id, title) {
   Swal.fire({
     title: 'Voce tem certeza?',

@@ -20,6 +20,7 @@ return new class extends Migration
         $table->boolean('isAdmin');
         $table->text('address')->nullable(); 
         $table->double('phone')->nullable();
+        $table->boolean("active");
         $table->timestamps();
       });
 

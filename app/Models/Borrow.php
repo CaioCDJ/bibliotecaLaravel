@@ -14,12 +14,11 @@ class Borrow extends Model
 
 
   protected $fillable = [
-    "bookId","userID"
+    "bookId", "userID"
   ];
 
-  public function user(): BelongsToMany
+  public function book()
   {
-    return $this->belongsToMany(User::class);
+    return $this->belongsTo(Book::class, "bookId");
   }
-
 }
