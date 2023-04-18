@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTos\HomeDto;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
-  public function home()
+  public function index()
   {
-    return view('welcome');
+
+    $mostAvailable = Book::orderBy('available','desc')->first();
+
+    $langs = Book::where('category','linguagens')->skip(0)->limit(4)->get();
+      
+    return view('welcome', compact("langs","mostAvailable"));
   }
 
   public function about()

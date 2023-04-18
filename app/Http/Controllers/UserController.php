@@ -35,7 +35,7 @@ class UserController extends Controller
 
     // works
     $credentials = array('email' => $request->email, 'password' => $request->password);
-
+    
     if ($user == null) {
       return redirect()->route('login.index')->withErrors(["notFound" => "Usuario não encontrado"]);
     } else if (Auth::attempt($credentials)) {
@@ -161,7 +161,6 @@ class UserController extends Controller
       User::where('id', $id)->update(['active' => false]);
       return redirect()->route('logout');
     }
-    dd($id);
   }
 
   public function borrow($book_id)
@@ -170,7 +169,8 @@ class UserController extends Controller
 
     $book = Book::find($book_id);
 
-    if ($book->available < 0) {
+    if ($book->available <= 0) {
+      return redirect()->route('book',['id'=>$book_id])->withErrors(["error" => 'Livro nao disponivel']);
     }
 
     $qtBorrow = Borrow::where([
@@ -180,6 +180,7 @@ class UserController extends Controller
 
 
     if ($qtBorrow >= 2) {
+      return redirect()->route('book',['id'=>$book_id])->withErrors(["erroe" => 'Devolva os livros antes de alugar um novo']);
       return "devolve meus livros, animal ";
     }
 
@@ -196,6 +197,6 @@ class UserController extends Controller
     $book->available--;
     Book::find($book_id)->update(['available' => $book->available]);
 
-    return view('pages/books/' . $book_id);
+    return redirect()->route('book',['id'=>$book_id]);
   }
 }

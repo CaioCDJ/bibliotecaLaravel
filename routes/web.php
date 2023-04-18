@@ -22,9 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(SiteController::class)->group(function () {
 
-  Route::get('/', function () {
-    return view('welcome');
-  })->name('index');
+  Route::get('/', 'index')->name('index');
 
   Route::get('/index', function () {
     return redirect()->route('/');
@@ -52,7 +50,7 @@ Route::controller(SiteController::class)->group(function () {
   
   Route::controller(BookController::class)->group(function () {
     Route::get('/books', 'books')->name('books');
-    Route::get('/book/{id}', 'getById');
+    Route::get('/book/{id}', 'getById')->name('book');
     Route::post("/book", 'addBook')->name('book.add');
   });
 });
@@ -86,5 +84,5 @@ Route::group(["middleware", 'auth'], function () {
 
 Route::controller(UserController::class)->group(function () {
   Route::post('/sign-in', 'createClient')->name("signin.req");
-  Route::post("client/login", 'login')->name("login.req");
+  Route::post("/login", 'login')->name("login.req");
 });

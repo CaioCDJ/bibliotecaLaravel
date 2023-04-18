@@ -14,11 +14,11 @@
       </li>
 
       <li>
-        <a href="">Login</a>
+        <a href="{{route('login.index')}}">Login</a>
       </li>
 
       <li>
-        <a href="">Cadastro</a>
+        <a href="{{route('signin.index')}}">Cadastro</a>
       </li>
 
       <li>

@@ -33,9 +33,30 @@
 
 </section>
 
-<section>
+<section class="container-fluid">
 
-{{-- 2 categorias linguagens e derivados --}}
+  <div class="row">
+    <h3>Livro Destaque</h3>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <img src="{{$mostAvailable->imgUrl}}">
+    </div>
+
+    <div class="col-7">
+      <h4>{{$mostAvailable->title}}</h4>
+      <ul>
+        <li>
+          <span>Autor</span>
+          <div>{{$mostAvailable->author}}</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  {{-- 2 categorias linguagens e derivados --}}
 
 </section>
 
