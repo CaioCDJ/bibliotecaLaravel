@@ -1,7 +1,11 @@
 nav{
   background-color: #343a40;
 }
-
+#paginationNav{
+  background: none;
+  display: flex;
+  justify-content: end;
+}
 .tableOp{
   font-size: 30px;
 }

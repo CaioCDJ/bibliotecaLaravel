@@ -21,7 +21,6 @@
 
 @section('content')
 
-
 <div class="container">
 
   <div class="row">
@@ -62,7 +61,7 @@
           <th>{{$borrow->created_at}}</th>
           <th>{{$borrow->returnDt}}</th>
           <th>
-            <a class="tableOp text-primary" title="Modificar">
+            <a class="tableOp text-primary" title="Renovar">
               <i class="bi bi-pencil-square"></i>
             </a>
           </th>

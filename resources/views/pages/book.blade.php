@@ -14,9 +14,17 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 <script src="{{asset('js/alerts.js')}}"></script>
 
+
+@if(session('message'))
+
+<script>
+alertSuccess('', '{{session("message")}}')
+</script>
+@endif
+
+
 @error('error')
 <script>
-  console.log('{{$message}}')
   alertError('', '{{$message}}')
 </script>
 @enderror
@@ -46,13 +54,13 @@
     </div>
     <div class="col-5">
 
-      <div class="row">
-        <h2>{{$book->title}}</h2>
+      <div class="row border-bottom border-secondary">
+        <h2 class="text-primary">{{$book->title}}</h2>
       </div>
 
       <div class="row">
         <ul class="infoUl">
-          <li class="info">
+          <li class="info ">
             <span>Autor</span>
             <div class="text-secondary">{{$book->author}}</div>
           </li>
@@ -67,15 +75,17 @@
           </li>
           <li class="info">
             <span>Data de Lançamento</span>
-            <div class="text-secondary">{{$book->releaseDt}}</div>
-          </li>
-          <li class="info">
-            <span>Categoria</span>
             <div class="text-secondary">
               @php
               $dt = new DateTime($book->releaseDt);
               @endphp
               {{$dt->format('d/m/Y')}}
+              </div>
+          </li>
+          <li class="info">
+            <span>Numero de paginas</span>
+            <div class="text-secondary">
+            {{$book->qtPages}}
             </div>
           </li>
         </ul>

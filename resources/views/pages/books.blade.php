@@ -38,6 +38,10 @@
     </li>
     @endforeach
   </ul>
+  @php
+    $ex= $books->links('includes/pagination')
+    @endphp
+    {{$ex}}
 </div>
 
 @endsection

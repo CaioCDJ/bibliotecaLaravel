@@ -43,7 +43,7 @@
   <input name="newPassword" class="form-control" type="password" placeholder="Digite sua nova senha">
   <input name="confirmPassword" class="form-control" type="password" placeholder="Digite sua nova senha novamente">
   <div class="container-fluid">
-    <input class="btn bnt-primary" type="submit" value="Confirmar">
+    <input class="btn btn-primary" type="submit" value="Confirmar">
   </div>
 </form>
         `
@@ -62,7 +62,7 @@
  <input class="form-control" name="phone" type="text" placeholder="Telefone:" value="{{$user->phone}}">
  <input class="form-control" name="address" type="text" placeholder="Endereço:" value="{{$user->address}}">
   <div class="container-fluid">
-    <input class="btn bnt-primary" type="submit" value="Confirmar">
+    <input class="btn btn-primary" type="submit" value="Confirmar">
   </div>
 </form> `
     });

@@ -21,8 +21,10 @@
               <li><a class="dropdown-item" href="{{route('books')}}?category=linguagens">Linguagens</a></li>
               <li><a class="dropdown-item" href="{{route('books')}}?category=arquitetura">Arquitetura</a></li>
               <li><a class="dropdown-item" href="{{route('books')}}?category=banco+de+dados">Banco de dados</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=redes">Redes</a></li>
+              <li><a class="dropdown-item" href="{{route('books')}}?category=seguranca">Segurança</a></li>
               <li><a class="dropdown-item" href="{{route('books')}}?category=derivados">Derivados</a></li>
-              <li><a class="dropdown-item" href="{{route('books')}}?category=redes">Derivados</a></li>
+
             </ul>
           </li>
           @auth

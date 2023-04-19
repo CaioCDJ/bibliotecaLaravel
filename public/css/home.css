@@ -3,6 +3,7 @@
   flex-flow: column;
   background: url('https://images.unsplash.com/photo-1562932831-afcfe48b5786?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1215&q=80') no-repeat;
   background-size: cover;
+  margin-top: 0;
 }
 
 #firstView form{
@@ -23,13 +24,133 @@
 
 h1{
   font-size: 3.6rem;
-  font-weight: 700;
+  font-weight: 70vh;
   text-shadow: 1px 1px black;
 }
 
 section{
-  height: auto;
+  height: 90vh;
   overflow: hidden;
   padding: 20px;
   padding-top: 60px;
+  margin-top: 4em;
+}
+
+.secTitle{
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.category{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  gap: 40px;
+}
+.category h3{
+  font-size: 4rem;
+}
+.category div{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-items: center;
+  align-content: center;
+  column-gap: 30px;
+  row-gap: 30px;
+  width: 70%;
+}
+
+.category div a{
+  text-decoration: none;
+  width: 100%;
+  height: 200px;
+  font-size: 2.5rem;
+  padding: 10%;
+  text-align: center;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-weight: 700;
+}
+
+.category div a:hover{
+  background: var(--bs-primary);
+    color: #f4f4f4;
+    transition: 0.5s;
+}
+
+.standout {
+  border: none;
+}
+
+.standoutImg{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.standoutInfo{
+  margin-top: 50px;
+  display: flex;
+  flex-flow: column; 
+}
+
+.standoutInfo h4{
+  font-size: 1.5rem;
+  color: #222;
+  border-top: none;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 1px;
+  border-style: solid;
+  text-align: center;
+  border-color:  #c6c6c6;
+  padding: 10px;
+}
+
+.standoutInfo ul{
+  list-style: none;
+  width: 60%;
+}
+
+.standoutInfo li{
+  display: flex;
+  flex-flow: column; 
+  padding-top: 10px;
+  padding-bottom: 15px;
+  list-style: none;
+}
+
+.standoutInfo ul li span{
+  font-weight: 600;
+  color: #222;
+  font-size: 1.2rem;
+} 
+
+.standoutInfo ul li > div{
+  margin-top: 5px;
+}
+
+.added .row h3{
+  text-align: center;
+}
+
+.books{
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  margin-top: 20px;
+}
+.books .col{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

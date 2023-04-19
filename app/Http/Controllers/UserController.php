@@ -177,26 +177,25 @@ class UserController extends Controller
       "userId" => auth()->user()->id,
       "returned" => false
     ])->count();
-
-
+    
+    
     if ($qtBorrow >= 2) {
-      return redirect()->route('book',['id'=>$book_id])->withErrors(["erroe" => 'Devolva os livros antes de alugar um novo']);
-      return "devolve meus livros, animal ";
+      return redirect()->route('book',['id'=>$book_id])->withErrors(["error" => 'Devolva os livros antes de alugar um novo']);
     }
 
     $dt = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
 
     $borrow = new Borrow();
-
+    
     $borrow->bookId = $book_id;
     $borrow->userId = auth()->user()->id;
-    $borrow->returnDt = $dt->modify("-7 day");
+    $borrow->returnDt = $dt->modify("+7 day");
     $borrow->returned = false;
     $borrow->save();
 
     $book->available--;
     Book::find($book_id)->update(['available' => $book->available]);
 
-    return redirect()->route('book',['id'=>$book_id]);
+    return redirect()->route('book',['id'=>$book_id])->with("message","A locação do ".$book->title."foi efetuada com sucesso.");
   }
 }

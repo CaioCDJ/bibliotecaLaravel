@@ -13,9 +13,9 @@ class SiteController extends Controller
 
     $mostAvailable = Book::orderBy('available','desc')->first();
 
-    $langs = Book::where('category','linguagens')->skip(0)->limit(4)->get();
+    $books = Book::orderBy('created_at','asc')->skip(0)->limit(4)->get();
       
-    return view('welcome', compact("langs","mostAvailable"));
+    return view('welcome', compact("books","mostAvailable"));
   }
 
   public function about()

@@ -6,7 +6,7 @@ const alertError = (title="Erro!", msg) =>
     text: msg
   });
 
-const successAlert = (title="Sucesso!", msg) =>
+const alertSuccess = (title="Sucesso!", msg) =>
   Swal.fire( {
     icon: 'success',
     title,
