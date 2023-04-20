@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\DTos\categoryInfoDTO as DTosCategoryInfoDTO;
 use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\User;
+use categoryInfoDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,10 +21,21 @@ class AdminController extends Controller
     $dashboardInfo[0] = Book::all()->count();
     $dashboardInfo[1] = User::where('isAdmin', false)->get()->count();
     $dashboardInfo[2] = Borrow::all()->count();
-    $dashboardInfo[3] = Borrow::where("returned",false)->get()->count();
+    $dashboardInfo[3] = Borrow::where("returned", false)->get()->count();
 
-    
-    return view("pages/admin/dashboard", compact('dashboardInfo'));
+
+    $categoryInfoRaw = DB::select('
+      SELECT 
+	      (SELECT COUNT(category) FROM books WHERE category ="linguagens") AS linguagens ,
+	      (SELECT COUNT(category) FROM books WHERE category ="arquitetura") AS arquitetura, 
+	      (SELECT COUNT(category) FROM books WHERE category ="banco de dados") AS banco ,
+	      (SELECT COUNT(category) FROM books WHERE category ="seguranca") AS seguranca ,
+	      (SELECT COUNT(category) FROM books WHERE category ="redes") AS redes 		,
+	      (SELECT COUNT(category) FROM books WHERE category ="derivados") AS derivados 		
+      FROM books LIMIT 1;');
+
+    $categoryInfo = $categoryInfoRaw[0];
+    return view("pages/admin/dashboard", compact("dashboardInfo", "categoryInfo"));
   }
 
   public function books()
@@ -31,7 +44,7 @@ class AdminController extends Controller
 
     return view('pages/admin/books', compact('books'));
   }
-  
+
   public function borrows(Request $request)
   {
     $borrows = DB::table("borrows")
@@ -44,18 +57,18 @@ class AdminController extends Controller
     return view('pages/admin/borrows', compact('borrows'));
   }
 
-  public function returnBook($id){
+  public function returnBook($id)
+  {
 
     $borrow = Borrow::find($id);
     $book = Book::find($borrow->bookId);
 
     $book->available++;
 
-    Borrow::where('id',$id)->update(['returned'=>true]);
+    Borrow::where('id', $id)->update(['returned' => true]);
 
-    Book::where('id',$borrow->bookId)->update(['available'=>$book->available]);
+    Book::where('id', $borrow->bookId)->update(['available' => $book->available]);
 
-  
     //dd($book, $borrow);
 
     return redirect()->route('admin.borrows.index');

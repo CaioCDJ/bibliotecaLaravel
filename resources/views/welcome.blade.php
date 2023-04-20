@@ -22,101 +22,112 @@
 
 @section('content')
 
-<section id="firstView" class="flex-center">
+<div id="firstView" class="flex-center">
 
   <h1 class="text-white">Seja bem vindo a sua biblioteca virtual</h1>
   <form id="form" name="searchForm" action="">
     <input id="txt" name="txt" type="text" placeholder="Buscar livro">
   </form>
 
-</section>
+</div>
 
 <section class="category">
-  
+
   <h3 class="secTitle">Categorias Disponiveis</h3>
   <div class="d-grid">
-   <a href="{{route('books',['category'=>'linguagens'])}}" class="border border-primary">Linguagens</a>
-   <a href="{{route('books',['category'=>'arquitetura'])}}" class="border border-primary">Arquitetura</a>
-   <a href="{{route('books',['category'=>'banco de dados'])}}" class="border border-primary">Banco de Dados</a>
-   <a href="{{route('books',['category'=>'redes'])}}" class="border border-primary">Redes</a>
-   <a href="{{route('books',['category'=>'seguranca'])}}" class="border border-primary">Segurança</a>
-   <a href="{{route('books',['category'=>'derivados'])}}" class="border border-primary">Derivados</a>
+    <a href="{{route('books',['category'=>'linguagens'])}}" class="border border-primary">Linguagens</a>
+    <a href="{{route('books',['category'=>'arquitetura'])}}" class="border border-primary">Arquitetura</a>
+    <a href="{{route('books',['category'=>'banco de dados'])}}" class="border border-primary">Banco de Dados</a>
+    <a href="{{route('books',['category'=>'redes'])}}" class="border border-primary">Redes</a>
+    <a href="{{route('books',['category'=>'seguranca'])}}" class="border border-primary">Segurança</a>
+    <a href="{{route('books',['category'=>'derivados'])}}" class="border border-primary">Derivados</a>
   </div>
 
 </section>
 
 
-<section class="added">
+<section class="container-fluid added">
 
   <div class="row">
-    <h3 class="secTitle">Livros Recem Adicionados</h3>
-  </div>
-
-  <div class=books>
-
-    @foreach($books as $book)
-
-    <div class="col">
-      <a href="{{route('book',['id'=>$book->id])}}">
-        <div class="card" style="width: 18rem;">
-          <img src="{{$book->imgUrl}}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">{{$book->author}}</h5>
-            <p class="card-text" style=" text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{$book->desc}}</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    @endforeach
-  </div>
-
-</section>
-
-<section class="container-fluid standout">
-
-  <div class="row">
-    <h3 class="secTitle">Livro Destaque</h3>
-  </div>
-
-  <div class="row">
-    <div class="col-6 standoutImg">
-      <img src="{{$mostAvailable->imgUrl}}">
-    </div>
-
-    <div class="col-6 standoutInfo">
+    <div class="col-md-6 col-sm-12 added-info">
+      <h3 class="added-title">Livros Recém Adicionados</h3>
+      <p class="text-secondary">
+        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+      </p>
       <ul>
-        <li class="border-bottom border-secondary">
-          <span>Titulo</span>
-          <div>{{$mostAvailable->title}}</div>
-        </li>
-        <li class="border-bottom border-secondary">
-          <span>Autor</span>
-          <div>{{$mostAvailable->author}}</div>
-        </li>
-        <li class="border-bottom border-secondary">
-          <span>Editora</span>
-          <div>{{$mostAvailable->publisher}}</div>
-        </li>
-        <li class="border-bottom border-secondary">
-          <span>Categoria</span>
-          <div>{{$mostAvailable->category}}</div>
-        </li>
-        <li class="border-bottom border-secondary">
-          <span>Numero de Paginas</span>
-          <div>{{$mostAvailable->qtPages}}</div>
-        </li>
-        <li class="d-grid">
-          <a href="{{route('book',['id'=>$mostAvailable->id])}}" class="btn btn-outline-primary">Ver mais</a>
-        </li>
+        <li>Alguma vantagem</li>
+        <li>Alguma desvantagem</li>
+        <li>Alguma coisa boa</li>
+        <li>Escolhe um e leva logo seu animal</li>
       </ul>
     </div>
+    <div class="col-md-6 col-sm-12">
+
+      <div class="added-books">
+        @foreach($books as $book)
+
+        <div class="bookAdded">
+          <div class="card text-bg-dark">
+            <img src="{{$book->imgUrl}}" class="card-img" alt="...">
+            <div class="card-img-overlay">
+              <p class="card-text">
+                <span>Autor: </span>{{$book->author}}
+              </p>
+              <hr>
+              <p class="card-text">
+                @php
+                $dt = new DateTime($book->releaseDt);
+                @endphp
+                Lançamento {{$dt->format('d/m/Y')}}
+                </small>
+              </p>
+              <hr>
+              <p class="card-text">
+                <span>Editora: </span>{{$book->publisher}}
+              </p>
+              <hr>
+              <a href="{{route('book',['id'=>$book->id])}}">Ir a pagina</a>
+            </div>
+          </div>
+        </div>
+
+        @endforeach
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="container-fluid account">
+  <div class="flex-center info">
+    <a class="icon"><i class="bi bi-person-circle"></i></a>
+    <h3>Ficou interessado em algum livro?</h3>
+    <p>Não perca seu tempo e ja realize o seu pedido.</p>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+      <a class="btn btn-success">Faça o Login</a>
+      <a class="btn btn-info">Cadastre-se</a>
+    </div>
   </div>
 </section>
 
+<section class="container-fluid about">
 
-<section class="container-fluid">
+  <div class="row">
+    <div class="col-5 about-img">
+      <img src="https://images.unsplash.com/photo-1532294220147-279399e4e00f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjAwfHxib29rfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=500&q=60">
+    </div>
+    <div class="col-7 about-info ">
+      <h3>Sobre a Biblioteca</h3>
+      <hr>
+      <p>
+        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+      </p>
+      <p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
 
-  <a class="btn btn-outline-primary">Saiba mais</a>
+      <a class="btn btn-outline-info">Saiba mais</a>
+    </div>
+  </div>
+
 </section>
 
 @endsection

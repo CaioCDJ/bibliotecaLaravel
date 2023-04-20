@@ -10,11 +10,22 @@
 @endpush
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script src="https://releases.jquery.com/git/jquery-git.min.js"></script>
-<script src=" https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js "></script>
 <script defer src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script defer src="{{asset('js/dashboard.js')}}"></script>
+<script src="{{asset('js/dashboard.js')}}">
+
+</script>
+<script>
+gemBooks(
+  {{$categoryInfo->linguagens}},
+  {{$categoryInfo->redes}},
+  {{$categoryInfo->arquitetura}},
+  {{$categoryInfo->banco}},
+  {{$categoryInfo->derivados}},
+  {{$categoryInfo->seguranca}})
+</script>
 @endpush
 
 
@@ -97,13 +108,24 @@
             <canvas id="chart">
 
             </canvas>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <section class="col-lg-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="chartjs-chart-canva">
+            <canvas id="bookChart">
+
+            </canvas>
+          </div>
         </div>
       </div>
     </section>
   </div>
 
 </div>
-
 
 @endsection
