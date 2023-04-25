@@ -12,7 +12,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script defer src="https://releases.jquery.com/git/jquery-git.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+<script src="{{asset('js/alerts.js')}}"></script>
 <script defer>
   document.querySelector("#btnDel").addEventListener("click", () => {
     Swal.fire({
@@ -68,6 +68,18 @@
     });
   });
 </script>
+
+@if($errors->any())
+<script>
+alertError("",'{{$errors->all()[0]}}');
+</script>
+@endif
+
+@if(session()->has('success'))
+<script>
+alertSuccess("","{{session()->get('success')}}");
+</script>
+@endif
 
 @endpush
 

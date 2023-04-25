@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\MailNotify;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\User;
@@ -11,23 +13,12 @@ use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
 
-  public function login(Request $request)
+  public function login(LoginRequest $request)
   {
-
-    $request->validate([
-      'email' => ['required', 'email'],
-      'password' => ['required']
-    ], [
-      'email.required' => "O email é obrigatorio.",
-      'email.email' => "Não é um email.",
-      'password.required' => "A senha é obrigatoria."
-    ]);
-
     $user = User::where([
       "email" => $request->email,
       "active" => true
@@ -35,7 +26,7 @@ class UserController extends Controller
 
     // works
     $credentials = array('email' => $request->email, 'password' => $request->password);
-    
+
     if ($user == null) {
       return redirect()->route('login.index')->withErrors(["notFound" => "Usuario não encontrado"]);
     } else if (Auth::attempt($credentials)) {
@@ -52,24 +43,8 @@ class UserController extends Controller
     }
   }
 
-  public function createClient(Request $request)
+  public function createClient(RegisterUserRequest $request)
   {
-    /* -- erros de validacao --
-    $request->validate([
-        'name' => "required|min:2",
-        'email' => "required|email",
-        'phone' => "numeric",
-        'password' => "required|min:7",
-    ],[
-      "name.required" => "O nome é necessario para a realização do cadastro",
-      "email.required" =>"O email é necessario para a criação da senha.",
-      "email.email" =>"Email invalido",
-      "phone.numeric" =>"Numero de telefone possui caracteres nao numericos.",
-      "password.required" =>"A senha é obrigatoria",
-      "password.min" => "A senha deve ter no minimo 5 carecteres"
-      ]);
-
-    */
 
     $client = new User();
     $client->name = $request->name;
@@ -124,15 +99,16 @@ class UserController extends Controller
 
   public function update(Request $request)
   {
-    User::where(['id'=>auth()->user()->id])->update([
-      'name'=> $request->name,
-      "address"=>$request->address,
-      "phone"=>$request->phone ]);
+    User::where(['id' => auth()->user()->id])->update([
+      'name' => $request->name,
+      "address" => $request->address,
+      "phone" => $request->phone
+    ]);
 
-    return redirect()->route('user.account',['id'=>auth()->user()->id]);
+    return redirect()->route('user.account', ['id' => auth()->user()->id]);
   }
 
-  public function changePassword(Request $request)
+  public function changePassword(ChangePasswordRequest $request)
   {
     // validações
     $user = User::where(
@@ -142,19 +118,21 @@ class UserController extends Controller
     )->first();
 
     if (!Hash::check($request->password, $user->password)) {
-      return redirect()->route('user.account',['id'=>auth()->user()->id])->withErrors(["password" => "Senha atual não compativel"]);
+      return redirect()->route('user.account', ['id' => auth()->user()->id])->withErrors(["password" => "Senha atual não compativel"]);
     }
 
     if ($request->newPassword == $request->confirmPassword) {
 
-      User::where('id', auth()->user()->id)->update(['password' => bcrypt($request->password)]);
-      return redirect()->route('user.account',['id'=>$user->id]);
+      User::where('id', auth()->user()->id)->update(['password' => bcrypt($request->newPassword)]);
+      return redirect()
+        ->route('user.account', ['id' => $user->id])
+        ->with(["success" => "Nova Senha foi salva com sucesso"]);
     } else {
       dd("error");
     }
   }
 
-  public function delete(string $id, Request $request)
+  public function delete(string $id)
   {
 
     if ($id === auth()->user()->id) {
@@ -170,23 +148,22 @@ class UserController extends Controller
     $book = Book::find($book_id);
 
     if ($book->available <= 0) {
-      return redirect()->route('book',['id'=>$book_id])->withErrors(["error" => 'Livro nao disponivel']);
+      return redirect()->route('book', ['id' => $book_id])->withErrors(["error" => 'Livro nao disponivel']);
     }
 
     $qtBorrow = Borrow::where([
       "userId" => auth()->user()->id,
       "returned" => false
     ])->count();
-    
-    
+
     if ($qtBorrow >= 2) {
-      return redirect()->route('book',['id'=>$book_id])->withErrors(["error" => 'Devolva os livros antes de alugar um novo']);
+      return redirect()->route('book', ['id' => $book_id])->withErrors(["error" => 'Devolva os livros antes de alugar um novo']);
     }
 
     $dt = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
 
     $borrow = new Borrow();
-    
+
     $borrow->bookId = $book_id;
     $borrow->userId = auth()->user()->id;
     $borrow->returnDt = $dt->modify("+7 day");
@@ -196,6 +173,6 @@ class UserController extends Controller
     $book->available--;
     Book::find($book_id)->update(['available' => $book->available]);
 
-    return redirect()->route('book',['id'=>$book_id])->with("message","A locação do ".$book->title."foi efetuada com sucesso.");
+    return redirect()->route('book', ['id' => $book_id])->with("message", "A locação do " . $book->title . "foi efetuada com sucesso.");
   }
 }

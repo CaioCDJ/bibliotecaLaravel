@@ -104,8 +104,8 @@
     <h3>Ficou interessado em algum livro?</h3>
     <p>Não perca seu tempo e ja realize o seu pedido.</p>
     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-      <a class="btn btn-success">Faça o Login</a>
-      <a class="btn btn-info">Cadastre-se</a>
+      <a class="btn btn-success" href="{{route('login.index')}}">Faça o Login</a>
+      <a class="btn btn-info" href="{{route('signin.index')}}">Cadastre-se</a>
     </div>
   </div>
 </section>
@@ -124,7 +124,7 @@
       </p>
       <p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
 
-      <a class="btn btn-outline-info">Saiba mais</a>
+      <a class="btn btn-outline-info" href="{{route('about')}}">Saiba mais</a>
     </div>
   </div>
 

@@ -28,13 +28,13 @@
 
 @error('notFound')
 <script>
-  error("", "{{$message}}")
+  alertError("", "{{$message}}")
 </script>
 @enderror
 
 @error('email')
 <script>
-  error("", "{{$message}}")
+  alertError("", "{{$message}}")
 </script>
 @enderror
 

@@ -8,6 +8,12 @@ nav{
   align-items: center;
 }
 
+main{
+  display: flex;
+  flex-flow: column;
+
+}
+
 footer{
   background-color: #222;
   color: #f8f8f8;
@@ -67,6 +73,5 @@ footer{
   color: #d2d2d2;
   text-align: center;
 }
-
 
 

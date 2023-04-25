@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateBookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -90,7 +91,7 @@ class BookController extends Controller
     return view('pages/book', compact('book'));
   }
 
-  public function addBook(Request $request)
+  public function addBook(CreateBookRequest $request)
   {
 
     $book = new Book();

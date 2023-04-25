@@ -55,7 +55,7 @@ Route::controller(SiteController::class)->group(function () {
   });
 });
 
-Route::group(["middleware", 'auth'], function () {
+Route::group(["middleware"=> 'auth'], function () {
 
   Route::controller(UserController::class)->group(function(){
     Route::get('/client/{id}', 'index')->name('user.account');
