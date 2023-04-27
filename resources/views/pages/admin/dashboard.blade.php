@@ -19,12 +19,12 @@
 </script>
 <script>
 gemBooks(
-  {{$categoryInfo->linguagens}},
-  {{$categoryInfo->redes}},
-  {{$categoryInfo->arquitetura}},
-  {{$categoryInfo->banco}},
-  {{$categoryInfo->derivados}},
-  {{$categoryInfo->seguranca}})
+  {{$dashboardInfo->linguagens}},
+  {{$dashboardInfo->redes}},
+  {{$dashboardInfo->arquitetura}},
+  {{$dashboardInfo->banco}},
+  {{$dashboardInfo->derivados}},
+  {{$dashboardInfo->seguranca}})
 </script>
 @endpush
 
@@ -47,7 +47,7 @@ gemBooks(
 
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>{{$dashboardInfo[0]}}</h3>
+          <h3>{{$dashboardInfo->qtBooks}}</h3>
           <p>Quantidade de Livros</p>
         </div>
         <div class="icon">
@@ -62,7 +62,7 @@ gemBooks(
 
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>{{$dashboardInfo[1]}}</h3>
+          <h3>{{$dashboardInfo->qtUsers}}</h3>
           <p>Usuarios</p>
         </div>
         <div class="icon">
@@ -75,7 +75,7 @@ gemBooks(
     <div class="col-lg-3 col-6">
       <div class="small-box bg-warning">
         <div class="inner">
-          <h3>{{$dashboardInfo[2]}}</h3>
+          <h3>{{$dashboardInfo->qtBorrows}}</h3>
           <p>Quantidade de Emprestimos</p>
         </div>
         <div class="icon">
@@ -89,7 +89,7 @@ gemBooks(
 
       <div class="small-box bg-danger">
         <div class="inner">
-          <h3>{{$dashboardInfo[3]}}</h3>
+          <h3>{{$dashboardInfo->qtNotReturned}}</h3>
           <p>Emprestimos Vencidos</p>
         </div>
         <div class="icon">

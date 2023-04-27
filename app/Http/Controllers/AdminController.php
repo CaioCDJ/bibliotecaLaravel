@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\DTos\categoryInfoDTO as DTosCategoryInfoDTO;
 use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\User;
-use categoryInfoDTO;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -15,27 +14,23 @@ class AdminController extends Controller
 
   public function dashboard()
   {
-
-    $dashboardInfo = array();
-
-    $dashboardInfo[0] = Book::all()->count();
-    $dashboardInfo[1] = User::where('isAdmin', false)->get()->count();
-    $dashboardInfo[2] = Borrow::all()->count();
-    $dashboardInfo[3] = Borrow::where("returned", false)->get()->count();
-
-
-    $categoryInfoRaw = DB::select('
+    $dashboardInfoRaw = DB::select('
       SELECT 
 	      (SELECT COUNT(category) FROM books WHERE category ="linguagens") AS linguagens ,
 	      (SELECT COUNT(category) FROM books WHERE category ="arquitetura") AS arquitetura, 
 	      (SELECT COUNT(category) FROM books WHERE category ="banco de dados") AS banco ,
 	      (SELECT COUNT(category) FROM books WHERE category ="seguranca") AS seguranca ,
 	      (SELECT COUNT(category) FROM books WHERE category ="redes") AS redes 		,
-	      (SELECT COUNT(category) FROM books WHERE category ="derivados") AS derivados 		
-      FROM books LIMIT 1;');
+        (SELECT COUNT(category) FROM books WHERE category ="derivados") AS derivados,
+        (SELECT COUNT(id) FROM books) AS qtBooks, 
+        (SELECT COUNT(id) FROM users WHERE isAdmin = 0) AS qtUsers,
+		    (SELECT COUNT(id) FROM borrows) AS qtBorrows,
+		    (SELECT COUNT(id) FROM borrows WHERE returned = 0 AND returnDT < " '.date('Y-m-d', strtotime(Date::now())).'"  ) AS qtNotReturned  
+      	  FROM books LIMIT 1;
+      ');
 
-    $categoryInfo = $categoryInfoRaw[0];
-    return view("pages/admin/dashboard", compact("dashboardInfo", "categoryInfo"));
+    $dashboardInfo = $dashboardInfoRaw[0];
+    return view("pages/admin/dashboard", compact("dashboardInfo"));
   }
 
   public function books()

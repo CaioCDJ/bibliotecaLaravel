@@ -1,7 +1,6 @@
 @extends('layouts/admin')
-@section('title','admin-books')
+@section('title','Livros')
 @section('ad-page','Livros')
-
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -40,9 +39,6 @@
           <th scope="col">id</th>
           <th scope="col">Title</th>
           <th scope="col">Author</th>
-          <th scope="col">Editora</th>
-          <th scope="col">Paginas</th>
-          <th scope="col">lançamento</th>
           <th scope="col">Categoria</th>
           <th scope="col">Quantidade</th>
           <th scope="col">Disponivel</th>
@@ -56,14 +52,6 @@
           <th>{{$book->id}}</th>
           <th>{{$book->title}}</th>
           <th>{{$book->author}}</th>
-          <th>{{$book->publisher}}</th>
-          <th>{{$book->qtPages}}</th>
-          <th>
-            @php
-            $dt = new DateTime($book->releaseDt);
-            @endphp
-            {{$dt->format('d/m/Y')}}
-          </th>
           <th>{{$book->category}}</th>
           <th>{{$book->qt}}</th>
           <th>{{$book->available}}</th>

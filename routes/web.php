@@ -83,6 +83,6 @@ Route::group(["middleware"=> 'auth'], function () {
 });
 
 Route::controller(UserController::class)->group(function () {
-  Route::post('/sign-in', 'createClient')->name("signin.req");
+  Route::post('/sign-in', 'register')->name("signin.req");
   Route::post("/login", 'login')->name("login.req");
 });

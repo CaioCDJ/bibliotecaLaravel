@@ -38,9 +38,11 @@
 </script>
 @enderror
 
-
-
-
+@if(session()->has('success'))
+<script>
+  alertSuccess("","{{session()->get('success')}}");
+</script>
+@endif
 
 @endpush
 
