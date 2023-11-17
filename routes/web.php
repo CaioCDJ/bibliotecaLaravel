@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\SiteController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,76 +14,45 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
-// -- Rotas das paginas do front-end --
 
-Route::controller(SiteController::class)->group(function () {
+Route::controller(HomeController::class)->group(function(){
+    Route::get("/",'index')->name("home");
+    Route::get("/about",'about')->name('about');
+    Route::get("/login",'login')->name('login');
+    Route::post('/login','loginPost')->name('login.post');
+    Route::post('/logout','logout')->name('logout');
+    Route::get("/register",'register')->name('register');
+    Route::post('/register','registerPost')->name('register.post');
+    Route::get("/books,'books")->name('book');
+    Route::get("/book/{id},'books")->name('books');
 
-  Route::get('/', 'index')->name('index');
+    // -- Redirecionamentos --
+    Route::get('/home', function() {return redirect()->route('home');});
+    Route::get('/sobre', function() {return redirect()->route('about');});
+    Route::get('/acessar', function() {return redirect()->route('login');});
+    Route::get('/signin', function() {return redirect()->route('login');});
+    Route::get('/cadastro', function() {return redirect()->route('register');});
+    Route::get('/signup', function() {return redirect()->route('register');});
+    // Route::get('/home', function() {return redirect()->route('home');});
+    // Route::get("/sobre",redirect)
+});
 
-  Route::get('/index', function () {
-    return redirect()->route('/');
-  });
-
-  Route::get('/sign-in', 'signIn')->name('signin.index');
-
-  // redirecionamento
-  Route::get('/cadastro', function () {
-    return redirect()->route("/sign-in");
-  });
-
-  Route::get("/login", 'login')->name("login.index");
-
-  Route::get("/books", function () {
-    return view("pages/books");
-  })->name("books");
-
-  Route::get("/about", function () {
-    return view('pages/about');
-  })->name("about");
-  Route::get("/sobre", function () {
-    return redirect()->route("about");
-  });
-  
-  Route::controller(BookController::class)->group(function () {
-    Route::get('/books', 'books')->name('books');
-    Route::get('/book/{id}', 'getById')->name('book');
-    Route::post("/book", 'addBook')->name('book.add');
-  });
+Route::controller(BookController::class)->group(function(){
+    Route::get("/books",'index')->name("books");
+    Route::get("/Book/{id}",'book')->name("book");
 });
 
 Route::group(["middleware"=> 'auth'], function () {
-
-  Route::controller(UserController::class)->group(function(){
-    Route::get('/client/{id}', 'index')->name('user.account');
-    Route::get('/borrow/{book_id}','borrow')->name('borrow.new');
-    Route::get("/client/{id}/del",'delete')->name('user.del');
-    Route::post("/client/{id}/changePassword",'changePassword')->name('user.password');
-    Route::post("/client/{id}","update")->name('user.update'); 
-  });
-
-  Route::get('/logout', [UserController::class, 'logout'])->name('logout');
-
-  Route::group(['middleware' => 'isAdmin'], function () {
-    Route::controller(AdminController::class)->group(function () {
-      Route::get('/admin/dashboard', 'dashboard')->name('admin.dashboard');
-      Route::get('/admin', 'dashboard');
-      Route::get('/admin/books', 'books')->name("admin.books");
-      Route::get("/admin/addBook", 'addBook')->name('admin.book.add');
-      Route::post("/admin/book/{id}", 'removeBook')->name('admin.book.remove');
-      Route::get('/admin/users', 'users')->name('admin.users');
-      Route::get('/admin/admins', 'admins')->name("admin.admins");
-      Route::get('/admin/borrows',"borrows")->name('admin.borrows.index');
-      Route::get('/admin/borrow/{id}','returnBook')->name("admin.borrows.returned");
+    Route::controller(UserController::class)->group(function(){
+        Route::get("/account",'account')->name("user.account");
+        Route::put("/user",'update')->name('user.update');
+        Route::post("/user/password",'changePassword')->name('user.changePassword');
+        Route::delete("/user",'delete')->name("user.delete");
     });
-  });
 });
-
-Route::controller(UserController::class)->group(function () {
-  Route::post('/sign-in', 'register')->name("signin.req");
-  Route::post("/login", 'login')->name("login.req");
-});
+require __DIR__.'/auth.php';

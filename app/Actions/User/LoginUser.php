@@ -18,7 +18,7 @@ class LoginUser
 
     // works
     $credentials = array('email' => $loginRequest->email, 'password' => $loginRequest->password);
-    
+
     if($user==null){
       throw new \Exception(message:"Usuario não encontrado");
     }

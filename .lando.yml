@@ -1,8 +1,0 @@
-name: biblioteca
-recipe: laravel
-config:
-  database: mysql
-  webroot: ./public
-  services:
-    appserver:
-      type: 'php:8.1'

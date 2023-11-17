@@ -237,7 +237,7 @@ class BookSeeder extends Seeder
       'available' => 2,
       'qt' => 2
     ]);
-    
+
     Book::create([
       'title' => "A vida de um boxer pt-2",
       'author' => "Boxer",
@@ -262,7 +262,7 @@ class BookSeeder extends Seeder
       'available' => 9,
       'qt' => 9
     ]);
-    
+
     /*
     Book::create([
       'title'=>"",
