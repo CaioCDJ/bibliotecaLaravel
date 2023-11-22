@@ -81,8 +81,9 @@ function change() {
                                     Perfil</Link>
                                 </li>
                                 <li v-show="(userInfo.isAdmin)">
-                                    <a href="#"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Administrador</a>
+                                    <Link :href="route('admin.index')"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Administrador</Link>
                                 </li>
                             </ul>
                             <div class="py-2">

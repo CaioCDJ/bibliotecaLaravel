@@ -60,12 +60,15 @@ class HomeController extends Controller
                 ? redirect()->intended("/admin")
                 : redirect()->route('home');
         } catch (\Throwable $th) {
+            session()->flash("error",$th->getMessage());
         }
     }
 
     public function register()
     {
-        return Inertia::render("Login", ['isLogin' => false]);
+        return auth()->check()
+            ?redirect()->to("account")
+            : Inertia::render("Login", ['isLogin' => false]);
     }
 
     public function registerPost(/* RegisterRequest $registerRequest */)

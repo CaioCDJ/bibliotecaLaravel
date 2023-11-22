@@ -37,6 +37,9 @@ class HandleInertiaRequests extends Middleware
                 'email' => auth()->user()->email ?? null,
                 "isAdmin"=>auth()->user()->isAdmin ?? null
             ],
+            'flash'=>[
+                'error'=> fn () => $request->session()->get("error")
+            ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

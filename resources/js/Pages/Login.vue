@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import BtnSuccess from '@/Components/BtnSuccess.vue';
 import Input from '@/Components/Input.vue';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 
 const props = defineProps({
     isLogin: {
@@ -27,6 +27,8 @@ const formRegister = useForm({
     password: null,
     confirmPassword: null
 });
+
+let errorsmg = computed(() => usePage().props.flash.error);
 
 </script>
 
@@ -96,4 +98,5 @@ const formRegister = useForm({
     background: -webkit-linear-gradient(#0aa9f8, #0acfff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}</style>
+}
+</style>
