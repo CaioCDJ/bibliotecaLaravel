@@ -5,10 +5,6 @@
     @apply items-center justify-center
 }
 
-section{
-  max-width: 1400px;
-}
-
 .mainTitle{
     font-size: 3.6rem;
   font-weight: 70vh;

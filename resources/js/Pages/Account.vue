@@ -1,15 +1,19 @@
 <script setup>
 import App from '@/Layouts/App.vue';
+import ChangePassword from '@/Components/modais/ChangePassword.vue'
 
 const { user, borrows } = defineProps({
     user: Object,
     borrows: Array
 })
-console.log(borrows)
+
+const openModal = () => ChangePassword.open = !ChangePassword.open
+
 </script>
 
 <template>
     <App title="Perfil" navbar="Account">
+        <ChangePassword />
         <Section
             class=" md:h-[80vh]  max-h-[1400px] bg-[#f9faf9] rounded-md  w-full mt-[60px] p-4 flex lg:flex-row md:flex-row flex-col center">
             <div class="w-full md:w-2/5 rounded-xl bg-[#f6f7f7] h-full px-8 flex center gap-5 py-10 flex-col">
@@ -37,7 +41,8 @@ console.log(borrows)
                     </tr>
                 </table>
                 <div class="flex flex-row justify-between gap-2 mt-4">
-                    <Button class="btnInfo flex flex-row center text-md gap-2"> <i class="pi pi-pencil"></i> Alterar
+                    <Button class="btnInfo flex flex-row center text-md gap-2" data-modal-target="crud-modal"> <i
+                            class="pi pi-pencil"></i> Alterar
                     </Button>
                     <Button class="btnInfo flex center gap-2"> <i class="pi pi-unlock"></i> Alterar Senha </Button>
                     <Button class="btnDanger flex flex-row gap-2 center"> <i class="pi pi-trash"></i>Excluir Senha</Button>
