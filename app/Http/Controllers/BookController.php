@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateBookRequest;
 use App\Models\Book;
+use App\Services\BookServices;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -10,6 +13,11 @@ use Nette\Utils\ArrayList;
 
 class BookController extends Controller
 {
+    public function __construct(
+        private BookServices $bookServices
+    ) {
+    }
+
     public function index(Request $request)
     {
 
@@ -89,19 +97,41 @@ class BookController extends Controller
     }
     public function book($id)
     {
-        $book = Book::where('id', $id)->first();
+        try {
+            $book = $this->bookServices->byId($id);
             return Inertia::render("Book", [
                 "book" => $book
             ]);
+        } catch (\Throwable $th) {
+            request()->flash("error", $th->getMessage());
+        }
     }
 
-    public function store()
+    public function store(CreateBookRequest $createBookRequest)
     {
+        $createBookRequest->validated();
+
+        try {
+
+            $this->bookServices->store($createBookRequest);
+
+            return redirect()->route("admin.books");
+        } catch (\Throwable $th) {
+        }
     }
+
     public function update()
     {
     }
-    public function delete()
+
+    public function delete(string $bookId)
     {
+        $book = Book::where("id",$bookId)->first();
+
+        if(!isset($book) && empty($book));
+
+        DB::table("books")->where("id",$book->id)->delete();
+
+        return redirect()->back()->with("success","");
     }
 }

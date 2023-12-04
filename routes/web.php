@@ -26,8 +26,6 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout');
     Route::get("/register", 'register')->name('register');
     Route::post('/register', 'registerPost')->name('register.post');
-    Route::get("/books,'books")->name('book');
-    Route::get("/book/{id},'books")->name('books');
 
     // -- Redirecionamentos --
     Route::get('/home', function () {
@@ -78,6 +76,11 @@ Route::group(["middleware" => 'auth'], function () {
             Route::get('/borrows','borrows')->name("admin.borrows");
             Route::get('/admins',"admins")->name("admin.lst");
             Route::get('/users','users')->name("admin.users");
+        });
+
+        Route::controller(BookController::class)->group(function(){
+            Route::post("/storeBook",'store')->name('admin.storeBook');
+            Route::post("/book/{id}","delete")->name("admin.book.delete");
         });
     });
 });

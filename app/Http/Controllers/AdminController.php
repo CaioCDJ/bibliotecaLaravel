@@ -44,10 +44,15 @@ class AdminController extends Controller
                 "category",
                 "available",
                 "qt",
+                "qtPages",
                 "publisher",
-                "author"
+                "author",
+                "id",
+                "desc",
+                "imgUrl",
+                "releaseDt"
             )->paginate(10)
-        ]);
+        ])->with("msg", "oliver");
     }
 
     public function newBook()
@@ -58,7 +63,7 @@ class AdminController extends Controller
     public function borrows()
     {
 
-        $borrows = DB::table("borrows")
+        $paginate = DB::table("borrows")
             ->join('books', 'books.id', '=', 'borrows.bookId')
             ->join("users", "users.id", "=", "borrows.userId")
             ->select("borrows.id", "users.name", "books.title", "borrows.created_at", "borrows.returnDt", 'borrows.returned')
@@ -66,18 +71,25 @@ class AdminController extends Controller
 
         $today = new DateTime('now');
 
-        for ($i = 0; $i < count($borrows->items()); $i++) {
-            $dt = new DateTime($borrows->items()[$i]->created_at);
-            $borrows->items()[$i]->created_at = $dt->format("d/m/Y");
+        $borrows = json_decode(json_encode($paginate->items()), true);
 
-            $dt = new DateTime($borrows->items()[$i]->returnDt);
-            $borrows->items()[$i]->returnDt = $dt->format("d/m/Y");
+        for ($i = 0; $i < count($borrows); $i++) {
+            $cd = new DateTime($borrows[$i]['created_at']);
+            $borrows[$i]['created_at'] = $cd->format("d/m/Y");
 
-            if (!$borrows->items()[$i]->returned && $dt < $today) {
-            }
+            $rd = new DateTime($borrows[$i]['returnDt']);
+            $borrows[$i]['returnDt'] = $rd->format("d/m/Y");
+
+            $today = new DateTime("now");
+
+            if ($today == $rd) $borrows[$i]['devolution'] = "today";
+            elseif ($today > $rd) $borrows[$i]['devolution'] = "late";
+            else $borrows['devolution'] = "ok";
         }
 
-        return Inertia::render('adm/Borrows', ['borrows' => $borrows]);
+
+
+        return Inertia::render('adm/Borrows', ['paginate' => $paginate,"borrows"=>$borrows]);
     }
 
     public function users()

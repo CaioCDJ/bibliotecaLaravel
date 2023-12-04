@@ -6,6 +6,7 @@ use App\Actions\User\LoginUser;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Book;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -33,19 +34,10 @@ class HomeController extends Controller
         return Inertia::render("About");
     }
 
-
-    public function books()
-    {
-    }
-
-    public function book()
-    {
-    }
-
     public function login()
     {
         return auth()->check()
-            ?redirect()->to("account")
+            ? redirect()->to("account")
             : Inertia::render("Login", ['isLogin' => true]);
     }
 
@@ -60,14 +52,16 @@ class HomeController extends Controller
                 ? redirect()->intended("/admin")
                 : redirect()->route('home');
         } catch (\Throwable $th) {
-            session()->flash("error",$th->getMessage());
+            return redirect()->back()->withErrors([
+                "msg" => $th->getMessage()
+            ]);
         }
     }
 
     public function register()
     {
         return auth()->check()
-            ?redirect()->to("account")
+            ? redirect()->to("account")
             : Inertia::render("Login", ['isLogin' => false]);
     }
 
@@ -83,6 +77,6 @@ class HomeController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Inertia::render("Login", ['isLogin' => true]);
+        return redirect()->to("login");
     }
 }

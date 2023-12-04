@@ -2,17 +2,15 @@
 import Adm from '@/Layouts/Adm.vue';
 
 const { borrows } = defineProps({
-    borrows: Object
+    borrows: Object,
+    paginate: Array
 })
-
-console.log(borrows)
-
 </script>
 
 <template>
     <Adm title="Admin - Emprestimos" page="books">
 
-        <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+        <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 md:min-w-[1200px]">
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <h1 class=" text-3xl font-bold tracking-wide">Admin - Emprestimos</h1>
                 <!-- Start coding here -->
@@ -122,10 +120,11 @@ console.log(borrows)
                                     <th scope="col" class="px-4 py-3">Data de retirada</th>
                                     <th scope="col" class="px-4 py-3">Data de retorno</th>
                                     <th scope="col" class="px-4 py-3"></th>
+                                    <th scope="col" class="px-4 py-3"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="border-b dark:border-gray-700" v-for="borrow in borrows.data">
+                                <tr class="border-b dark:border-gray-700" v-for="borrow in borrows">
                                     <th class="px-4 py-3">
                                         <input type="checkbox"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -134,6 +133,19 @@ console.log(borrows)
                                     <td class="px-4 py-3">{{ borrow.title }}</td>
                                     <td class="px-4 py-3">{{ borrow.created_at }}</td>
                                     <td class="px-4 py-3">{{ borrow.returnDt }}</td>
+                                    <td>
+                                        <div class="flex flex-row center">
+                                            <span v-show="(borrow.devolution == 'ok')"
+                                                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Dentro
+                                                do Prazo</span>
+                                            <span v-show="(borrow.devolution == 'today')"
+                                                class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Ultimo
+                                                dia do Prazo</span>
+                                            <span v-show="(borrow.devolution == 'late')"
+                                                class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Fora
+                                                do Prazo</span>
+                                        </div>
+                                    </td>
                                     <td class="px-4 py-3 gap-2 h-full">
                                         <div class="flex center gap-3">
                                             <button class="bg-sky-500 rounded-lg p-2 "><i

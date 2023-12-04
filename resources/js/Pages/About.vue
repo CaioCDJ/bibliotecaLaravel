@@ -8,8 +8,8 @@ import App from '@/Layouts/App.vue';
     <App title="Sobre" navbar="about">
 
         <section
-            class="bg-center h-[60vh] flex center max-w-[100%] w-full bg-no-repeat bg-cover bg-[url('https://images.unsplash.com/photo-1529148482759-b35b25c5f217?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')] bg-gray-400 bg-blend-multiply">
-            <h1 class="text-6xl text-[#f2f2f2] font-bold">Sobre a Nossa Biblioteca</h1>
+            class="bg-center px-4 h-[900px] md:h-[60vh] flex center max-w-[100%] w-full bg-no-repeat bg-cover bg-[url('https://images.unsplash.com/photo-1529148482759-b35b25c5f217?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')] bg-gray-400 bg-blend-multiply">
+            <h1 class="text-5xl md:text-6xl w-full text-center text-[#f2f2f2] font-bold">Sobre a Nossa Biblioteca</h1>
         </section>
         <section class="flex flex-col center py-8 max-w-[2400px]">
             <div class="w-4/6 text-lg text-gray-500">
@@ -42,7 +42,7 @@ import App from '@/Layouts/App.vue';
                 </p>
             </div>
         </section>
-        <section class="text-gray-400 body-font bg-[#f0f0f0] rounded-md">
+        <section class="text-gray-400 body-font h- bg-[#f0f0f0] rounded-md">
             <div class="container px-5 py-24 mx-auto">
                 <div class="flex flex-wrap -m-4">
                     <div class="lg:w-1/3 lg:mb-0 mb-6 p-4">

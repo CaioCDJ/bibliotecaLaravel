@@ -4,6 +4,9 @@ import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import BtnSuccess from '@/Components/BtnSuccess.vue';
 import Input from '@/Components/Input.vue';
 import { reactive, computed } from 'vue';
+import AlertModal from "@/Components/modais/AlertModal.vue"
+
+const alertModal = ref(null)
 
 const props = defineProps({
     isLogin: {
@@ -30,10 +33,20 @@ const formRegister = useForm({
 
 let errorsmg = computed(() => usePage().props.flash.error);
 
+const submitLogin = () => {
+    formLogin.post(route('login.post'), {
+        onError: (err) => {
+            alertModal.value.error(err.msg)
+        },
+    })
+}
+const submitRegister = () => { }
+
 </script>
 
 <template>
     <Head :title="title"></Head>
+    <AlertModal ref="alertModal" />
     <div class="h-[100vh] w-full flex center flex-row bgLogin">
         <div class="w-3/5 flex flex-col justify-center">
             <div class="w-[80%] flex flex-col">
@@ -47,7 +60,7 @@ let errorsmg = computed(() => usePage().props.flash.error);
         </div>
 
         <div class="flex card center bg-[#fafafa] p-8 w-[70vh] h-auto rounded-lg shadow shadow-lg">
-            <form v-if="login" class="flex center flex-col gap-1 w-5/6" @submit.prevent="formLogin.post('/login')">
+            <form v-if="login" class="flex center flex-col gap-1 w-5/6" @submit.prevent="submitLogin">
                 <!-- <img src="/imgs/logo.png" class="h-24 w-24" alt=""> -->
                 <h1 class="font-black h-[80px] text-6xl mt-3 tracking-wider title">Login</h1>
                 <div class="w-full flex flex-col gap-4">

@@ -38,7 +38,8 @@ class HandleInertiaRequests extends Middleware
                 "isAdmin"=>auth()->user()->isAdmin ?? null
             ],
             'flash'=>[
-                'error'=> fn () => $request->session()->get("error")
+                'error'=> fn () => $request->session()->get("error"),
+                'msg'=> fn() =>$request->session()->get("msg")
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

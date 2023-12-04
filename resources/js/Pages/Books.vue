@@ -9,6 +9,7 @@ const { books } = defineProps({
         type: Object
     }
 })
+
 </script>
 
 <template>

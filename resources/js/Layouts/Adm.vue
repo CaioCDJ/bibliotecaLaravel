@@ -2,6 +2,10 @@
 import Sidebar from '@/Components/Sidebar.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import AlertModal from "@/Components/modais/AlertModal.vue"
+
+const alertModal = ref(null)
+const isAlertVisible = ref(false);
 
 defineProps({
     title: String,
@@ -11,9 +15,14 @@ defineProps({
 let dropdown = ref(false)
 
 function openDropdown() {
-    console.log(dropdown)
     dropdown.value = !dropdown.value
 }
+
+const closeAlert = () => isAlertVisible.value = false
+
+defineExpose({
+    alertModal,
+})
 
 </script>
 <template>
@@ -57,6 +66,7 @@ function openDropdown() {
         <!-- Sidebar -->
         <Sidebar :page="page" />
         <main class="p-4 md:ml-64 h-auto pt-20 flex flex-col center ">
+            <AlertModal ref="alertModal" />
             <slot />
         </main>
     </div>

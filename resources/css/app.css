@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+    @apply text-gray-700
+}
+
+i{
+    color:#dfdfdf
+}
+
 .center{
     @apply items-center justify-center
 }

@@ -7,11 +7,7 @@ const { book } = defineProps({
         type: Object
     }
 })
-
-const dtObj = new Date(book.releaseDt)
-
-let dt = dtObj.getDay() + "/" + dtObj.getMonth() + "/" + dtObj.getFullYear();
-
+console.log(book)
 const styles = "bg-gray-300 bg-blend-multiply bg-cover bg-[url(" + book.imgUrl + ")]";
 
 </script>
@@ -73,7 +69,7 @@ const styles = "bg-gray-300 bg-blend-multiply bg-cover bg-[url(" + book.imgUrl +
                             <table class="h-36 w-full">
                                 <tr>
                                     <td class="font-semibold">Data de Lançamento:</td>
-                                    <td>{{ dt }}</td>
+                                    <td>{{ book.releaseDt }}</td>
                                 </tr>
                                 <tr class="mt-2">
                                     <td class="font-semibold">Quantidade de Paginas:</td>

@@ -27,18 +27,18 @@ function change() {
                 <ul
                     class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
                     <li>
-                        <Link :href="route('home')" v-bind:class="(page == 'home') ? 'text-blue-700' : ''"
+                        <Link :href="route('home')" v-bind:class="(page == 'home') ? 'text-blue-700 font-semibold' : ''"
                             class="block py-2 px-3 text-black rounded md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500"
                             aria-current="page">Home</Link>
                     </li>
 
                     <li>
-                        <Link :href="route('books')" v-bind:class="(page == 'books') ? 'text-blue-700' : ''"
-                            class="block py-2 px-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <Link :href="route('books')" v-bind:class="(page == 'books') ? 'text-blue-700 font-semibold' : ''"
+                            class="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         Livros</Link>
                     </li>
                     <li>
-                        <Link :href="route('about')" v-bind:class="(page == 'about') ? 'text-blue-700' : ''"
+                        <Link :href="route('about')" v-bind:class="(page == 'about') ? 'text-blue-700 font-semibold' : ''"
                             class="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         Sobre</Link>
                     </li>
@@ -92,7 +92,6 @@ function change() {
                                 Sair</Link>
                             </div>
                         </div>
-
                     </li>
                 </ul>
             </div>
