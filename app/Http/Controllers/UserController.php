@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\User\NewBorrow;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Models\User;
 use DateTime;
@@ -14,46 +15,51 @@ class UserController extends Controller
 {
     public function account()
     {
-        $user = DB::table("users")
-            ->select("name", "email", "phone", "address", "created_at")
-            ->where("id", auth()->user()->id)->first();
+        try {
+            $user = DB::table("users")
+                ->select("name", "email", "phone", "address", "created_at")
+                ->where("id", auth()->user()->id)->first();
 
-        $dt = new DateTime($user->created_at);
+            $dt = new DateTime($user->created_at);
 
-        $user->created_at = $dt->format("d/m/Y");
+            $user->created_at = $dt->format("d/m/Y");
 
-        $paginate = DB::table("borrows as b")
-            ->join('books as book', 'book.id', "b.bookId")
-            ->where("b.userId", auth()->user()->id)
-            ->select(
-                "b.returned",
-                "b.returnDt",
-                "b.created_at",
-                "book.title",
-            )->orderBy("b.returnDt", "DESC")
-            ->paginate(5);
+            $paginate = DB::table("borrows as b")
+                ->join('books as book', 'book.id', "b.bookId")
+                ->where("b.userId", auth()->user()->id)
+                ->select(
+                    "b.returned",
+                    "b.returnDt",
+                    "b.created_at",
+                    "book.title",
+                )->orderBy("b.returnDt", "DESC")
+                ->paginate(5);
 
-        $borrows = json_decode(json_encode($paginate->items()), true);
+            $borrows = json_decode(json_encode($paginate->items()), true);
+            $i = 0;
+            // dd($borrows, count($borrows));
+            for ($i; $i < count($borrows); $i++) {
+                $cd = new DateTime($borrows[$i]['created_at']);
+                $borrows[$i]['created_at'] = $cd->format("d/m/Y");
 
-        for ($i = 0; $i < count($borrows); $i++) {
-            $cd = new DateTime($borrows[$i]['created_at']);
-            $borrows[$i]['created_at'] = $cd->format("d/m/Y");
+                $rd = new DateTime($borrows[$i]['returnDt']);
+                $borrows[$i]['returnDt'] = $rd->format("d/m/Y");
 
-            $rd = new DateTime($borrows[$i]['returnDt']);
-            $borrows[$i]['returnDt'] = $rd->format("d/m/Y");
+                $today = new DateTime("now");
 
-            $today = new DateTime("now");
+                if ($today == $rd) $borrows[$i]['devolution'] = "today";
+                elseif ($today > $rd) $borrows[$i]['devolution'] = "late";
+                else $borrows[$i]['devolution'] = "ok";
+            }
 
-            if ($today == $rd) $borrows[$i]['devolution'] = "today";
-            elseif ($today > $rd) $borrows[$i]['devolution'] = "late";
-            else $borrows['devolution'] = "ok";
+            return Inertia::render("Account", [
+                "user" => $user,
+                "paginate" => $paginate,
+                "borrows" => $borrows
+            ]);
+        } catch (\Throwable $th) {
+            dd($i, $th->getTrace(), count($borrows),$borrows);
         }
-
-        return Inertia::render("Account", [
-            "user" => $user,
-            "paginate" => $paginate,
-            "borrows" => $borrows
-        ]);
     }
 
     public function changePassword(ChangePasswordRequest $changePasswordRequest)
@@ -70,9 +76,19 @@ class UserController extends Controller
 
             User::where("id", $user->id)->update(["password" => bcrypt($data['newPassword'])]);
 
-            return back()->with(['error'=>"nao teve erro"]);
+            return back()->with(['error' => "nao teve erro"]);
         } catch (\Throwable $th) {
             dd($th->getMessage());
+        }
+    }
+
+    public function borrow(NewBorrow $newBorrow, $borrowId)
+    {
+        try {
+            $newBorrow->handle($borrowId, auth()->user()->id);
+
+            return redirect()->route("user.account");
+        } catch (\Throwable $th) {
         }
     }
 }

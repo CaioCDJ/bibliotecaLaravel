@@ -1,10 +1,15 @@
 <script setup>
 import Adm from '@/Layouts/Adm.vue';
-
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import { computed } from 'vue';
 const { borrows } = defineProps({
     borrows: Object,
     paginate: Array
 })
+
+const user = computed(() => usePage().props)
+
+
 </script>
 
 <template>
@@ -150,9 +155,9 @@ const { borrows } = defineProps({
                                         <div class="flex center gap-3">
                                             <button class="bg-sky-500 rounded-lg p-2 "><i
                                                     class="pi pi-file-edit cursor-pointer text-lg text-white"></i></button>
-                                            <button class="bg-emerald-500 rounded-lg p-2 " title="Confirmar Devolução"><i
-                                                    class="pi pi-check-circle cursor-pointer text-lg text-white"></i></button>
-
+                                            <Link method="post" :href="route('admin.borrow.dev', { id: borrow.id })"
+                                                class="bg-emerald-500 rounded-lg p-2 " title="Confirmar Devolução"><i
+                                                class="pi pi-check-circle cursor-pointer text-lg text-white"></i></Link>
                                         </div>
                                     </td>
                                 </tr>

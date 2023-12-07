@@ -2,7 +2,7 @@
 import Footer from '@/Components/Footer.vue';
 import Navbar from '@/Components/Navbar.vue';
 import { Head, usePage } from '@inertiajs/vue3';
-import { computed,ref } from 'vue';
+import { computed, ref } from 'vue';
 import AlertModal from "@/Components/modais/AlertModal.vue"
 
 const alertModal = ref(null)
@@ -15,8 +15,10 @@ const { navbar, title } = defineProps({
 
 const user = computed(() => usePage().props.user)
 
+const add = () => console.log('olibre')
+
 defineExpose({
-    alertModal
+    alertModal,
 })
 
 </script>
@@ -28,5 +30,5 @@ defineExpose({
         <AlertModal ref="alertModal" />
         <slot />
     </main>
-    <Footer />
+    <Footer />
 </template>

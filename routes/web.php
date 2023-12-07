@@ -59,6 +59,7 @@ Route::group(["middleware" => 'auth'], function () {
     Route::controller(UserController::class)->group(function () {
         Route::get("/account", 'account')->name("user.account");
         Route::put("/user", 'update')->name('user.update');
+        Route::get('/borrow/{bookId}', 'borrow')->name('borrow.new');
         Route::post("/user/password", 'changePassword')->name('user.changePassword');
         Route::delete("/user", 'delete')->name("user.delete");
 
@@ -71,16 +72,17 @@ Route::group(["middleware" => 'auth'], function () {
         Route::controller(AdminController::class)->group(function () {
             // -- pages
             Route::get("/", 'index')->name("admin.index");
-            Route::get("/books",'books')->name('admin.books');
-            Route::get("/storeBook",'newBook')->name('admin.addBook');
-            Route::get('/borrows','borrows')->name("admin.borrows");
-            Route::get('/admins',"admins")->name("admin.lst");
-            Route::get('/users','users')->name("admin.users");
+            Route::get("/books", 'books')->name('admin.books');
+            Route::get("/storeBook", 'newBook')->name('admin.addBook');
+            Route::get('/borrows', 'borrows')->name("admin.borrows");
+            Route::post('/borrow/devolution/{id}', 'devolution')->name('admin.borrow.dev');
+            Route::get('/admins', "admins")->name("admin.lst");
+            Route::get('/users', 'users')->name("admin.users");
         });
 
-        Route::controller(BookController::class)->group(function(){
-            Route::post("/storeBook",'store')->name('admin.storeBook');
-            Route::post("/book/{id}","delete")->name("admin.book.delete");
+        Route::controller(BookController::class)->group(function () {
+            Route::post("/storeBook", 'store')->name('admin.storeBook');
+            Route::delete("/book/{id}", "delete")->name("admin.book.delete");
         });
     });
 });

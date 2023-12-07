@@ -23,26 +23,19 @@ const showUsers = () => openUsers.value = !openUsers.value;
             <ul class="space-y-2">
                 <li class="cursor-pointer"
                     :class="(page == 'dashboard') ? 'bg-sky-500 text-white rounded-md' : 'text-gray-900'">
-                    <Link :href="route('admin.index')"
-                        class="flex items-center p-2  font-medium  rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
-                    <svg aria-hidden="true"
-                        :class="(page == 'dashboard') ? '' : 'text-gray-500 group-hover:text-gray-900 hover:bg-gray-100'"
-                        class="w-6 h-6 transition duration-75 dark:text-gray-400  dark:group-hover:text-white"
-                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                    </svg>
-                    <span class="ml-3">Dashboard</span>
+                    <Link :href="route('admin.index')" class="flex items-center p-2 font-medium  rounded-lg group">
+                    <i class="pi pi-home text-2xl" :class="(page == 'dashboard') ? ' text-white' : 'text-gray-900'"></i>
+                    <span class="ml-3" :class="(page == 'dashboard') ? 'text-white' : ''">Dashboard</span>
                     </Link>
                 </li>
                 <li>
                     <button @click="showBooks" type="button"
-                        :class="(page == 'books') ? 'bg-sky-500 text-white rounded-t-lg' : 'hover:bg-gray-100 rounded-lg text-base'"
+                        :class="(page == 'books') ? 'bg-sky-500 text-white rounded-t-lg' : 'hover:bg-gray-100 rounded-lg text-gray-900'"
                         class="flex items-center p-2 w-full font-medium  transition duration-75 group  dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-                        <i class="pi pi-book text-2xl" :class="(page == 'books') ? ' text-white' : 'text-[#6b7280]'"></i>
+                        <i class="pi pi-book text-2xl" :class="(page == 'books') ? ' text-white' : 'text-gray-900'"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap"
-                            :class="(page == 'books') ? 'text-white' : 'text-[#6b7280]'">Livros</span>
+                            :class="(page == 'books') ? 'text-white' : 'text-gray-900'">Livros</span>
                         <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -75,12 +68,12 @@ const showUsers = () => openUsers.value = !openUsers.value;
 
                 <li>
                     <button @click="showUsers" type="button"
-                        :class="(page == 'users') ? 'bg-sky-500 text-white rounded-t-lg' : 'hover:bg-gray-100 rounded-lg'"
+                        :class="(page == 'users') ? 'bg-sky-500 text-white rounded-t-lg' : 'hover:bg-gray-100 rounded-lg text-gray-900'"
                         class="flex items-center p-2 w-full text-base font-medium  transition duration-75 group  dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-                        <i class="pi pi-users text-2xl" :class="(page == 'users') ? 'text-white' : 'text-[#6b7280]'"></i>
+                        <i class="pi pi-users text-2xl" :class="(page == 'users') ? 'text-white' : 'text-gray-900'"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap"
-                            :class="(page == 'users') ? 'text-white' : 'text-[#6b7280]'">Usuarios</span>
+                            :class="(page == 'users') ? 'text-white' : 'text-gray-900'">Usuarios</span>
                         <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"

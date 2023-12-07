@@ -6,6 +6,7 @@ use App\Http\Requests\CreateBookRequest;
 use App\Models\Book;
 use App\Services\BookServices;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -117,6 +118,7 @@ class BookController extends Controller
 
             return redirect()->route("admin.books");
         } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['msg' => $th->getMessage()]);
         }
     }
 
@@ -126,12 +128,12 @@ class BookController extends Controller
 
     public function delete(string $bookId)
     {
-        $book = Book::where("id",$bookId)->first();
+        $book = Book::where("id", $bookId)->first();
 
-        if(!isset($book) && empty($book));
+        if (!isset($book) && empty($book));
 
-        DB::table("books")->where("id",$book->id)->delete();
+        DB::table("books")->where("id", $book->id)->delete();
 
-        return redirect()->back()->with("success","");
+        return redirect()->back()->with("success", "");
     }
 }

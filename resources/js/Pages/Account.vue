@@ -3,12 +3,14 @@ import App from '@/Layouts/App.vue';
 import ChangePasswordModal from '@/Components/modais/ChangePassword.vue'
 import UpdateUserModal from "@/Components/modais/UpdateUserModal.vue"
 import { ref } from 'vue';
+import ConfirmModal from '@/Components/modais/ConfirmModal.vue'
 
 const { user, borrows } = defineProps({
     user: Object,
     borrows: Array,
     paginate: Array
 })
+
 const isModalVisible = ref({
     update: false,
     updatePassword: false
@@ -116,7 +118,6 @@ const check = () => console.log(isModalVisible.value)
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </Section>
     </App>

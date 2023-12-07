@@ -1,19 +1,22 @@
 <script setup>
-
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import App from '@/Layouts/App.vue';
+import { ref } from 'vue';
+
+const lay = ref(null)
 
 const { book } = defineProps({
     book: {
         type: Object
     }
 })
-console.log(book)
+
 const styles = "bg-gray-300 bg-blend-multiply bg-cover bg-[url(" + book.imgUrl + ")]";
 
 </script>
 
 <template>
-    <App title="Livros" navbar="books">
+    <App ref="lay" title="Livros" navbar="books">
         <section class="text-gray-600 body-font bg-[#f8f8f8] rounded-sm overflow-hidden h-auto mt-[30px]">
             <div class="container px-5 py-24 mx-auto">
                 <div class="lg:w-4/5 mx-auto flex flex-wrap">
@@ -88,11 +91,14 @@ const styles = "bg-gray-300 bg-blend-multiply bg-cover bg-[url(" + book.imgUrl +
                         <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                         </div>
                         <div class="flex justify-between w-full">
-                            <span class="title-font font-medium text-2xl text-gray-900">Quantidade Disponivel: <span
-                                    class="font-bold text-emerald-400">{{ book.available }}
+                            <span class="title-font font-medium text-2xl text-gray-900"
+                                :class="(book.available > 0) ? '' : 'text-rose-500 font-black text-4xl'">
+                                {{ (book.available > 0) ? "Quantidade Disponivel:" : "Livro indisponivel" }}
+                                <span class="font-bold text-emerald-400" v-show="(book.available > 0)">{{ book.available }}
                                 </span></span>
-                            <button class="self-end btnInfo">Alugar</button>
-                        </div>
+                            <Link class="self-end btnInfo" method="get" :href="route('borrow.new', { bookId: book.id })"
+                                v-show="(book.available > 0)">Alugar</Link>
+                        </div>
                     </div>
                     <div class="mt-10">
                         <h3 class="text-xl font-bold">Sinopse</h3>

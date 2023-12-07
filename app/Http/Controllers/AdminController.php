@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -84,12 +85,27 @@ class AdminController extends Controller
 
             if ($today == $rd) $borrows[$i]['devolution'] = "today";
             elseif ($today > $rd) $borrows[$i]['devolution'] = "late";
-            else $borrows['devolution'] = "ok";
+            else $borrows[$i]['devolution'] = "ok";
         }
+        return Inertia::render('adm/Borrows', ['paginate' => $paginate, "borrows" => $borrows]);
+    }
+
+    public function devolution($id)
+    {
+        $borrow = Borrow::find($id);
+        $book = Book::find($borrow->bookId);
 
 
-
-        return Inertia::render('adm/Borrows', ['paginate' => $paginate,"borrows"=>$borrows]);
+        return redirect()->back()->with(['msg' => "{$book->title} foi devolvido"]);
+        //     $book->available++;
+        //
+        //     Borrow::where('id', $id)->update(['returned' => true]);
+        //
+        //     Book::where('id', $borrow->bookId)->update(['available' => $book->available]);
+        //
+        //     //dd($book, $borrow);
+        //
+        //     return redirect()->back()->with(['msg' => "{$book->title} foi devolvido"]);
     }
 
     public function users()
