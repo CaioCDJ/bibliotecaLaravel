@@ -38,10 +38,11 @@ class AdminController extends Controller
         ]);
     }
 
-    public function books()
+    public function books(Request $request)
     {
-        return Inertia::render("adm/Books", [
-            "books" => Book::select(
+        $search = $request->search;
+        $books = (!isset($search) && empty($search)) ?
+            Book::select(
                 "title",
                 "category",
                 "available",
@@ -54,6 +55,24 @@ class AdminController extends Controller
                 "imgUrl",
                 "releaseDt"
             )->paginate(10)
+            : DB::table("books")->where([
+                ["title", "LIKE", "%$search%"],
+            ])
+            ->orWhere(
+                "category",
+                "LIKE",
+                "%$search%"
+            )->orWhere(
+                "author",
+                "LIKE",
+                "%$search%"
+            )->orWhere(
+                "publisher",
+                "LIKE",
+                "%$search%"
+            )->paginate(10);
+        return Inertia::render("adm/Books", [
+            "books" => $books
         ])->with("msg", "oliver");
     }
 
@@ -62,11 +81,23 @@ class AdminController extends Controller
         return Inertia::render('adm/NewBook');
     }
 
-    public function borrows()
+    public function borrows(Request $request)
     {
-        $paginate = DB::table("borrows")
+        $search = $request->search;
+        $paginate = (!isset($search) && empty($search))
+            ? DB::table("borrows")
             ->join('books', 'books.id', '=', 'borrows.bookId')
             ->join("users", "users.id", "=", "borrows.userId")
+            ->select("borrows.id", "users.name", "books.title", "borrows.created_at", "borrows.returnDt", 'borrows.returned')
+            ->orderBy("borrows.returned")
+            ->orderBy("borrows.returnDt")
+            ->paginate(10)
+            : DB::table("borrows")
+            ->join('books', 'books.id', '=', 'borrows.bookId')
+            ->join("users", "users.id", "=", "borrows.userId")
+            ->where("users.name", "Like", "%$search%")
+            ->orWhere("books.title", "Like", "%$search%")
+            ->orWhere("books.author", "Like", "%$search%")
             ->select("borrows.id", "users.name", "books.title", "borrows.created_at", "borrows.returnDt", 'borrows.returned')
             ->orderBy("borrows.returned")
             ->orderBy("borrows.returnDt")
@@ -113,10 +144,17 @@ class AdminController extends Controller
         }
     }
 
-    public function users()
+    public function users(Request $request)
     {
-        $users = DB::table("users")->select("name", "email", "address", "phone", "created_at")
+        $search = $request->search;
+        $users = (!isset($search) && empty($search))
+            ? DB::table("users")->select("name", "email", "address", "phone", "created_at", "id")
             ->where('isAdmin', "=", false)
+            ->orderBy("name", "asc")
+            ->paginate(10)
+            : DB::table("users")->select("name", "email", "address", "phone", "created_at", "id")
+            ->whereRaw("isAdmin = 0 AND ( name LIKE '%$search%' or email LIKE '%$search%')")
+            ->orderBy("name", "asc")
             ->paginate(10);
 
         for ($i = 0; $i < count($users->items()); $i++) {
@@ -129,10 +167,31 @@ class AdminController extends Controller
         ]);
     }
 
-    public function admins()
+    public function givePrivilege($id)
     {
-        $users = DB::table("users")->select("name", "email", "address", "phone", "created_at")
+        try {
+            if (!isset($id) && empty($id)) throw new Exception();
+
+            User::where('id', $id)->update([
+                "isAdmin" => true
+            ]);
+
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            return redirect()->back();
+        }
+    }
+
+    public function admins(Request $request)
+    {
+        $users = (!isset($request->search) && empty($search))
+            ? DB::table("users")->select("name", "email", "address", "phone", "created_at", "id")
             ->where('isAdmin', "=", true)
+            ->orderBy("name", "asc")
+            ->paginate(10)
+            : DB::table("users")->select("name", "email", "address", "phone", "created_at", "id")
+            ->where('isAdmin', "=", true)
+            ->orderBy("name", 'asc')
             ->paginate(10);
 
         for ($i = 0; $i < count($users->items()); $i++) {
@@ -143,5 +202,22 @@ class AdminController extends Controller
         return Inertia::render("adm/Admins", [
             "admins" => $users
         ]);
+    }
+
+    public function withdrawPrivileges($id)
+    {
+        try {
+            if (!isset($id) && empty($id)) throw new Exception();
+
+            User::where('id', $id)->update([
+                "isAdmin" => false
+            ]);
+
+            return ($id == auth()->user()->id)
+                ? redirect()->route("user.account")
+                : redirect()->back();
+        } catch (\Throwable $th) {
+            return redirect()->back();
+        }
     }
 }

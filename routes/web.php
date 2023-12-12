@@ -72,12 +72,14 @@ Route::group(["middleware" => 'auth'], function () {
         Route::controller(AdminController::class)->group(function () {
             // -- pages
             Route::get("/", 'index')->name("admin.index");
-            Route::get("/books", 'books')->name('admin.books');
+            Route::get("/books/", 'books')->name('admin.books');
             Route::get("/storeBook", 'newBook')->name('admin.addBook');
             Route::get('/borrows', 'borrows')->name("admin.borrows");
             Route::post('/borrow/devolution/{id}', 'devolution')->name('admin.borrow.dev');
             Route::get('/admins', "admins")->name("admin.lst");
             Route::get('/users', 'users')->name("admin.users");
+            Route::patch('/ussers/toAdmin/{id}', 'givePrivilege')->name("admin.users.toAdmin");
+            Route::patch('/ussers/toComon/{id}', 'withdrawPrivileges')->name("admin.users.withdrawPrivileges");
         });
 
         Route::controller(BookController::class)->group(function () {

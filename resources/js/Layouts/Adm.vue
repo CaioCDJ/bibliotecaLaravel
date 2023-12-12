@@ -6,6 +6,7 @@ import AlertModal from "@/Components/modais/AlertModal.vue"
 import NProgress from 'nprogress'
 import { router } from '@inertiajs/vue3'
 
+const drop = ref(false);
 const alertModal = ref(null)
 const isAlertVisible = ref(false);
 
@@ -27,7 +28,6 @@ const closeAlert = () => isAlertVisible.value = false
 defineExpose({
     alertModal,
 })
-
 
 </script>
 <template>
@@ -61,12 +61,14 @@ defineExpose({
                     </Link>
                 </div>
                 <div class="flex items-center lg:order-2 gap-5">
-                    <Link :href="route('home')"><i class="pi pi-shopping-cart" title="Voltar a Home"></i></Link>
-                    <Link title="Sair" :href="route('logout')" method="post"><i class="pi pi-sign-out hover:text-red"></i>
+                    <Link :href="route('home')"><i class="pi pi-shopping-cart text-black hover:text-sky-400"
+                        title="Voltar a Home"></i></Link>
+                    <Link title="Sair" :href="route('logout')" method="post"><i
+                        class="pi pi-sign-out text-black hover:text-rose-400"></i>
                     </Link>
                 </div>
             </div>
-        </nav>
+        </nav>
 
         <!-- Sidebar -->
         <Sidebar :page="page" />
