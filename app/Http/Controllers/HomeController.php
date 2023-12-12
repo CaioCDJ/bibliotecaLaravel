@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\User\LoginUser;
+use App\Actions\User\RegisterUser;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Book;
@@ -65,10 +66,18 @@ class HomeController extends Controller
             : Inertia::render("Login", ['isLogin' => false]);
     }
 
-    public function registerPost(/* RegisterRequest $registerRequest */)
+    public function registerPost(RegisterRequest $registerRequest, RegisterUser $registerUser)
     {
-        dd("Senhor oliver");
-        // dd($registerRequest->json());
+        try {
+
+            $registerUser->handle($registerRequest);
+
+            return auth()->check()
+                ? redirect()->to("user.account")
+                : redirect()->to("login")->with(["msg" => "Conta criada com sucesso"]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(["msg" => $th->getMessage()]);
+        }
     }
 
     public function logout(Request $request)

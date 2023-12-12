@@ -103,13 +103,15 @@ const check = () => console.log(isModalVisible.value)
                                 </td>
                                 <td>
                                     <div class="flex flex-row center">
-                                        <span v-show="(item.devolution == 'ok')"
+                                        <span v-show="(item.returned)"
+                                            class="bg-emerald-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Devolvido</span>
+                                        <span v-show="(item.devolution == 'ok' && !item.returned)"
                                             class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Dentro
                                             do Prazo</span>
-                                        <span v-show="(item.devolution == 'today')"
+                                        <span v-show="(item.devolution == 'today' && !item.returned)"
                                             class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Ultimo
                                             dia do Prazo</span>
-                                        <span v-show="(item.devolution == 'late')"
+                                        <span v-show="(item.devolution == 'late' && !item.returned)"
                                             class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Fora
                                             do Prazo</span>
                                     </div>

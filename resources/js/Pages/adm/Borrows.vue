@@ -1,20 +1,33 @@
 <script setup>
 import Adm from '@/Layouts/Adm.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import Paginate from '@/Components/Paginate.vue';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { computed } from 'vue';
+import ConfirmModal from '@/Components/modais/ConfirmModal.vue';
+
+const layout = ref(null)
+
 const { borrows } = defineProps({
     borrows: Object,
     paginate: Array
 })
 
-const user = computed(() => usePage().props)
+const show = () => console.log(usePage().props.flash)
 
+const devolutionFrm = useForm({})
+
+const devolution = (id) => {
+    devolutionFrm.post(route('admin.borrow.dev', { id: id }), {
+        onSuccess: (msg) => layout.value.alertModal.success(msg.props.flash.msg),
+        onError: (obj) => layout.value.alertModal.error(obj.msg),
+    })
+}
 
 </script>
 
 <template>
-    <Adm title="Admin - Emprestimos" page="books">
-
+    <Adm ref="layout" title="Admin - Emprestimos" page="books">
         <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 md:min-w-[1200px]">
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <h1 class=" text-3xl font-bold tracking-wide">Admin - Emprestimos</h1>
@@ -140,13 +153,15 @@ const user = computed(() => usePage().props)
                                     <td class="px-4 py-3">{{ borrow.returnDt }}</td>
                                     <td>
                                         <div class="flex flex-row center">
-                                            <span v-show="(borrow.devolution == 'ok')"
+                                            <span v-show="(borrow.returned)"
+                                                class="bg-emerald-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Devolvido</span>
+                                            <span v-show="(borrow.devolution == 'ok' && borrow.returned == false)"
                                                 class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Dentro
                                                 do Prazo</span>
-                                            <span v-show="(borrow.devolution == 'today')"
+                                            <span v-show="(borrow.devolution == 'today' && borrow.returned == false)"
                                                 class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Ultimo
                                                 dia do Prazo</span>
-                                            <span v-show="(borrow.devolution == 'late')"
+                                            <span v-show="(borrow.devolution == 'late' && borrow.returned == false)"
                                                 class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Fora
                                                 do Prazo</span>
                                         </div>
@@ -155,70 +170,18 @@ const user = computed(() => usePage().props)
                                         <div class="flex center gap-3">
                                             <button class="bg-sky-500 rounded-lg p-2 "><i
                                                     class="pi pi-file-edit cursor-pointer text-lg text-white"></i></button>
-                                            <Link method="post" :href="route('admin.borrow.dev', { id: borrow.id })"
-                                                class="bg-emerald-500 rounded-lg p-2 " title="Confirmar Devolução"><i
-                                                class="pi pi-check-circle cursor-pointer text-lg text-white"></i></Link>
+                                            <button @click="devolution(borrow.id)" class="bg-emerald-500 rounded-lg p-2 "
+                                                title="Confirmar Devolução"><i
+                                                    class="pi pi-check-circle cursor-pointer text-lg text-white"></i></button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-                        aria-label="Table navigation">
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            Showing
-                            <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-                            of
-                            <span class="font-semibold text-gray-900 dark:text-white">1000</span>
-                        </span>
-                        <ul class="inline-flex items-stretch -space-x-px">
-                            <li>
-                                <a href="#"
-                                    class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Previous</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                            </li>
-                            <li>
-                                <a href="#" aria-current="page"
-                                    class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span class="sr-only">Next</span>
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div class="flex justify-end p-4">
+                        <Paginate :items="paginate" />
+                    </div>
                 </div>
             </div>
         </section>

@@ -37,7 +37,6 @@ class UserController extends Controller
 
             $borrows = json_decode(json_encode($paginate->items()), true);
             $i = 0;
-            // dd($borrows, count($borrows));
             for ($i; $i < count($borrows); $i++) {
                 $cd = new DateTime($borrows[$i]['created_at']);
                 $borrows[$i]['created_at'] = $cd->format("d/m/Y");
@@ -50,6 +49,8 @@ class UserController extends Controller
                 if ($today == $rd) $borrows[$i]['devolution'] = "today";
                 elseif ($today > $rd) $borrows[$i]['devolution'] = "late";
                 else $borrows[$i]['devolution'] = "ok";
+
+                $borrows[$i]["returned"] = ($borrows[$i]['returned'] == 1) ? true : false;
             }
 
             return Inertia::render("Account", [
@@ -58,7 +59,7 @@ class UserController extends Controller
                 "borrows" => $borrows
             ]);
         } catch (\Throwable $th) {
-            dd($i, $th->getTrace(), count($borrows),$borrows);
+            dd($i, $th->getTrace(), count($borrows), $borrows);
         }
     }
 

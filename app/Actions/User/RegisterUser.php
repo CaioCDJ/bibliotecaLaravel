@@ -2,34 +2,35 @@
 
 namespace App\Actions\User;
 
-use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Symfony\Component\Uid\Uuid;
 
-class RegisterUser{
+class RegisterUser
+{
+    public function handle(RegisterRequest $registerUser): string
+    {
+        $user = new User();
+        $user->fill($registerUser->validated());
 
-  public function handle(RegisterUserRequest $registerUser): string{
+        $account = User::where('email', $user->email)->first();
 
-    $user = new User();
-    $user->fill($registerUser->validated());
+        // dd($account, ($account != null), (!isset($account)));
 
-    $account =User::where('email',$user->email);
+        if ($account  != null) {
+            throw new \Exception(message: "Email ja cadastrado");
+        }
 
-    if($account != null){
-      throw new \Exception(message:"Email ja cadastrado");
+        if ($user->password != $registerUser->confirmPassword) {
+            throw new \Exception(message: "Senhas Incompativeis");
+        }
+
+        $user->password = bcrypt($user->password);
+        $user->isAdmin = false;
+        $user->active = true;
+
+        $user->saveOrFail();
+
+        return $user->name;
     }
-
-    if($user->password != $registerUser->confirmPassword){
-      throw new \Exception(message:"Senhas Incompativeis");
-    }
-
-    $user->password = bcrypt($user->password);
-    $user->isAdmin = false;
-    $user->active = true;
-
-    $user->saveOrFail();
-
-    return $user->name;
-  }
-
 }

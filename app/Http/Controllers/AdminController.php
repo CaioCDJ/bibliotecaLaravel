@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\User;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -63,17 +64,17 @@ class AdminController extends Controller
 
     public function borrows()
     {
-
         $paginate = DB::table("borrows")
             ->join('books', 'books.id', '=', 'borrows.bookId')
             ->join("users", "users.id", "=", "borrows.userId")
             ->select("borrows.id", "users.name", "books.title", "borrows.created_at", "borrows.returnDt", 'borrows.returned')
+            ->orderBy("borrows.returned")
+            ->orderBy("borrows.returnDt")
             ->paginate(10);
 
         $today = new DateTime('now');
 
         $borrows = json_decode(json_encode($paginate->items()), true);
-
         for ($i = 0; $i < count($borrows); $i++) {
             $cd = new DateTime($borrows[$i]['created_at']);
             $borrows[$i]['created_at'] = $cd->format("d/m/Y");
@@ -86,26 +87,30 @@ class AdminController extends Controller
             if ($today == $rd) $borrows[$i]['devolution'] = "today";
             elseif ($today > $rd) $borrows[$i]['devolution'] = "late";
             else $borrows[$i]['devolution'] = "ok";
+
+            $borrows[$i]["returned"]  = ($borrows[$i]['returned'] == 1) ? true : false;
         }
         return Inertia::render('adm/Borrows', ['paginate' => $paginate, "borrows" => $borrows]);
     }
 
     public function devolution($id)
     {
-        $borrow = Borrow::find($id);
-        $book = Book::find($borrow->bookId);
+        try {
+            $borrow = Borrow::find($id);
+            if (null == $borrow || !isset($borrow))
+                throw new Exception(code: 404, message: "Emprestimo não encontrado");
 
+            $book = Book::find($borrow->bookId);
+            if (null == $borrow || !isset($borrow))
+                throw new Exception(code: 404, message: "Livro não encontrado");
 
-        return redirect()->back()->with(['msg' => "{$book->title} foi devolvido"]);
-        //     $book->available++;
-        //
-        //     Borrow::where('id', $id)->update(['returned' => true]);
-        //
-        //     Book::where('id', $borrow->bookId)->update(['available' => $book->available]);
-        //
-        //     //dd($book, $borrow);
-        //
-        //     return redirect()->back()->with(['msg' => "{$book->title} foi devolvido"]);
+            $book->available++;
+            Borrow::where('id', $id)->update(['returned' => true]);
+            Book::where('id', $borrow->bookId)->update(['available' => $book->available]);
+            return redirect()->back()->with(['msg' => "{$book->title} foi devolvido"]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['msg' => $th->getMessage()]);
+        }
     }
 
     public function users()

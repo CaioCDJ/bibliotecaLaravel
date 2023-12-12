@@ -13,7 +13,7 @@ let urls = items.links.splice(1, (parseInt(items.links.length) - 2))
 </script>
 
 <template>
-    <nav v-if="(items)">
+    <nav v-if="(items && items.last_page != 1)">
         <ul class="flex items-center -space-x-px h-8 text-sm">
 
             <li>

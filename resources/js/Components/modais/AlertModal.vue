@@ -67,7 +67,7 @@ defineExpose({
 
                     <i :class="icon" class="text-[90px] pi p-3 rounded-full"></i>
 
-                    <h3 class="text-black font-bold text-2xl" v-text="title"></h3>
+                    <h3 class="text-black font-bold text-2xl text-center" v-text="title"></h3>
 
                     <div class="w-full">
                         {{ desc }}

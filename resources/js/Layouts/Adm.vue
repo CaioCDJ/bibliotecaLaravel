@@ -1,11 +1,15 @@
 <script setup>
 import Sidebar from '@/Components/Sidebar.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
 import AlertModal from "@/Components/modais/AlertModal.vue"
+import NProgress from 'nprogress'
+import { router } from '@inertiajs/vue3'
 
 const alertModal = ref(null)
 const isAlertVisible = ref(false);
+
+router.on('start', () => NProgress.start())
 
 defineProps({
     title: String,
@@ -23,6 +27,7 @@ const closeAlert = () => isAlertVisible.value = false
 defineExpose({
     alertModal,
 })
+
 
 </script>
 <template>

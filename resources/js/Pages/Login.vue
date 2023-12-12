@@ -40,7 +40,12 @@ const submitLogin = () => {
         },
     })
 }
-const submitRegister = () => { }
+
+const submitRegister = () => {
+    formRegister.post(route("register.post"), {
+        onError: (err) => alertModal.value.error(err.msg),
+    })
+}
 
 </script>
 
@@ -77,7 +82,7 @@ const submitRegister = () => { }
                 </p>
             </form>
 
-            <form v-if="!login" @submit.prevent="registerSubmit" class="flex center flex-col gap-2 w-5/6">
+            <form v-if="!login" @submit.prevent="submitRegister" class="flex center flex-col gap-2 w-5/6">
                 <img src="/imgs/logo.png" class="h-12 w-12" alt="">
                 <h1 class="font-black h-[50px] text-3xl tracking-wider title">Cadastro</h1>
 

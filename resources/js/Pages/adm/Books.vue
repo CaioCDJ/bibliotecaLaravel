@@ -28,9 +28,6 @@ const closeModal = (prop) => isModalVisible.value[prop] = false;
 
 //adm.value.alertModal.error('Oliver says:', `ola    `)
 
-const yes = computed(() => usePage().props)
-console.log(yes)
-
 const frmSearch = useForm({
     search: ''
 })
