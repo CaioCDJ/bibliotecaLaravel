@@ -12,8 +12,8 @@ defineProps({
 
 <template>
     <div tabindex="-1" aria-hidden="true" v-show="isModalVisible" @close="close" @click="close"
-        class=" overflow-y-auto overflow-x-hidden h-full w-full flex center backdrop-blur fixed top-0 right-5 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-[1200px] md:w-[60vh] max-h-full " v-on::click.stop>
+        class=" overflow-y-auto overflow-x-hidden h-full w-full flex center backdrop-blur fixed top-0 right-5 left-0 z-40 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-auto  max-h-full " v-on::click.stop>
             <!-- Modal content -->
             <div class="relative  rounded-lg shadow dark:bg-gray-700 bg-[#fafafa]">
                 <!-- Modal header -->

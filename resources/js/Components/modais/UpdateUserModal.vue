@@ -26,7 +26,7 @@ const close = () => emit('close')
 <template>
     <ModalLayout title="Alterar Informações" @close="close" v-show="isOpen">
         <!-- Modal Body -->
-        <form class="p-4 md:p-5 flex center gap-5 flex-col">
+        <form class="p-4 md:p-5 flex center gap-5 flex-col min-w-[400px]">
             <Input label="Nome:" v-model="frm.name" :error="frm.errors.name" type="text" :required=true />
             <Input v-model="frm.email" label="Email:" :error="frm.errors.email" type="email" :required=true />
             <Input v-model="frm.address" label="Endereço:" type="text" :error="frm.errors.address" />

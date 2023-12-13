@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\CreateBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use DateTime;
 use Exception;
@@ -23,8 +24,11 @@ class BookServices
     public function byId(string $id): Book|array|stdClass
     {
         $book = DB::table('books')
-            ->select("releaseDt", "title", "author", "desc", "qtPages", "available", "qt", "publisher", "category", "imgUrl","id")
-            ->where("id", $id)
+            ->select("releaseDt", "title", "author", "desc", "qtPages", "available", "qt", "publisher", "category", "imgUrl", "id")
+            ->where([
+                ["id", "=", $id],
+                ["active", "=", true]
+            ])
             ->first();
         // Book::where('id', $id)->first();
 
@@ -45,6 +49,10 @@ class BookServices
      **/
     public function store(CreateBookRequest $request)
     {
+        $book = Book::where("title", $request->title)->first();
+
+        if (isset($book) || !empty($book)) throw new Exception(code: 400, message: "Livro $request->title jé registrado");
+
         $book = new Book();
 
         $book->title = $request->title;
@@ -60,13 +68,38 @@ class BookServices
 
         $book->save();
 
+        return $book;
     }
 
-    public function update()
+    public function update(UpdateBookRequest $request, string $id)
     {
+        $book = Book::where("id", $id)->first();
+
+        if (!isset($book) || empty($book)) throw new Exception(code: 404, message: "Livro não encontrado");
+
+        $book->title = $request->title ?? $book->title;
+        $book->author = $request->author ?? $book->author;
+        $book->publisher = $request->publisher ?? $book->publisher;
+        $book->qtPages = $request->qtPages ?? $book->qtPages;
+        $book->releaseDt = $request->releaseDt ?? $book->releaseDt;
+        $book->category = $request->category ?? $book->category;
+        $book->imgUrl  = $request->imgUrl ?? $book->imgUrl;
+        $book->qt = $request->qt ?? $book->qt;
+        $book->desc = $request->desc ?? $book->desc;
+
+        $book->save();
+
+        return $book;
     }
 
-    public function deleteById()
+    public function deleteById(string $id)
     {
+        $book = Book::where("id", $id)->first();
+
+        if (!isset($book) && empty($book)) throw new Exception(code: 404, message: "Livro não encontrado");
+
+        DB::table("books")->where("id", $book->id)->update([
+            "active" => false
+        ]);
     }
 }

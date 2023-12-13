@@ -90,6 +90,7 @@ class UserController extends Controller
 
             return redirect()->route("user.account");
         } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(["msg" => $th->getMessage()]);
         }
     }
 }

@@ -85,6 +85,7 @@ Route::group(["middleware" => 'auth'], function () {
         Route::controller(BookController::class)->group(function () {
             Route::post("/storeBook", 'store')->name('admin.storeBook');
             Route::delete("/book/{id}", "delete")->name("admin.book.delete");
+            Route::post("/book/{id}/update", "update")->name("admin.book.update");
         });
     });
 });

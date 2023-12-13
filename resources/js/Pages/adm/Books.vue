@@ -21,12 +21,22 @@ const showModal = (prop, obj) => {
     isModalVisible.value[prop] = true
     updateModal.value.updateProps(obj)
     //    emit("updateProps", obj)
-
 };
 
 const closeModal = (prop) => isModalVisible.value[prop] = false;
 
+const onError = (title) => {
+    adm.value.alertModal.error(title);
+    closeModal("update")
+}
+
+const onSuccess = (title) => {
+    adm.value.alertModal.success(title)
+    closeModal("update")
+}
+
 //adm.value.alertModal.error('Oliver says:', `ola    `)
+
 
 const frmSearch = useForm({
     search: ''
@@ -36,7 +46,8 @@ const frmSearch = useForm({
 
 <template>
     <Adm ref="adm" title="Admin - Livros" page="books">
-        <UpdateBookModal ref="updateModal" v-show="isModalVisible.update" @close="closeModal('update')" />
+        <UpdateBookModal @onSuccess="onSuccess" @onError="onError" ref="updateModal" v-show="isModalVisible.update"
+            @close="closeModal('update')" />
         <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 md:min-w-[1200px] ">
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <h1 class=" text-3xl font-bold tracking-wide">Admin - Livros</h1>
@@ -82,13 +93,14 @@ const frmSearch = useForm({
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="border-b dark:border-gray-700" v-for="book in books.data">
+                                <tr class="border-b dark:border-gray-700" v-for="book in books.data"
+                                    :class="(book.active == 1) ? '' : 'bg-rose-100'">
                                     <th class="px-4 py-3">
                                         <input type="checkbox"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     </th>
                                     <th scope="row"
-                                        class="px-4 py-3 font-medium text-gray-900 w-max-[20px] dark:text-white">
+                                        class=" px-4 py-3 font-medium text-gray-900 w-max-[20px] dark:text-white">
                                         {{ book.title }}</th>
                                     <td class="px-4 py-3">{{ book.author }}</td>
                                     <td class="px-4 py-3">{{ book.publisher }}</td>

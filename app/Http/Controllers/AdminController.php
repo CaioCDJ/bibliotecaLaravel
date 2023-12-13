@@ -42,19 +42,7 @@ class AdminController extends Controller
     {
         $search = $request->search;
         $books = (!isset($search) && empty($search)) ?
-            Book::select(
-                "title",
-                "category",
-                "available",
-                "qt",
-                "qtPages",
-                "publisher",
-                "author",
-                "id",
-                "desc",
-                "imgUrl",
-                "releaseDt"
-            )->paginate(10)
+            Book::orderByDesc('active')->paginate(10)
             : DB::table("books")->where([
                 ["title", "LIKE", "%$search%"],
             ])
@@ -70,7 +58,7 @@ class AdminController extends Controller
                 "publisher",
                 "LIKE",
                 "%$search%"
-            )->paginate(10);
+            )->orderByDesc('active')->paginate(10);
         return Inertia::render("adm/Books", [
             "books" => $books
         ])->with("msg", "oliver");
@@ -80,6 +68,7 @@ class AdminController extends Controller
     {
         return Inertia::render('adm/NewBook');
     }
+
 
     public function borrows(Request $request)
     {

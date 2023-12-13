@@ -3,8 +3,6 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import App from '@/Layouts/App.vue';
 import { ref } from 'vue';
 
-const lay = ref(null)
-
 const { book } = defineProps({
     book: {
         type: Object
@@ -13,10 +11,19 @@ const { book } = defineProps({
 
 const styles = "bg-gray-300 bg-blend-multiply bg-cover bg-[url(" + book.imgUrl + ")]";
 
+const submit = () => {
+
+    useForm({}).get(route("borrow.new", { id: book.id }), {
+        onError: (err) => {
+            alert(err.msg)
+        }
+    })
+}
+
 </script>
 
 <template>
-    <App ref="lay" title="Livros" navbar="books">
+    <App title="Livros" navbar="books">
         <section class="text-gray-600 body-font bg-[#f8f8f8] rounded-sm overflow-hidden h-auto mt-[30px]">
             <div class="container px-5 py-24 mx-auto">
                 <div class="lg:w-4/5 mx-auto flex flex-wrap">
@@ -96,8 +103,8 @@ const styles = "bg-gray-300 bg-blend-multiply bg-cover bg-[url(" + book.imgUrl +
                                 {{ (book.available > 0) ? "Quantidade Disponivel:" : "Livro indisponivel" }}
                                 <span class="font-bold text-emerald-400" v-show="(book.available > 0)">{{ book.available }}
                                 </span></span>
-                            <Link class="self-end btnInfo" method="get" :href="route('borrow.new', { bookId: book.id })"
-                                v-show="(book.available > 0)">Alugar</Link>
+                            <button class="self-end btnInfo" method="get" @click="submit"
+                                v-show="(book.available > 0)">Alugar</button>
                         </div>
                     </div>
                     <div class="mt-10">

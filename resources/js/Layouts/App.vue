@@ -15,8 +15,6 @@ const { navbar, title } = defineProps({
 
 const user = computed(() => usePage().props.user)
 
-const add = () => console.log('olibre')
-
 defineExpose({
     alertModal,
 })

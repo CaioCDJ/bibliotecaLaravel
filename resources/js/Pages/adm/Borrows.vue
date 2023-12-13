@@ -15,6 +15,8 @@ const { borrows } = defineProps({
 
 const show = () => console.log(usePage().props.flash)
 
+const devolutionFrm = useForm({})
+
 const frmSearch = useForm({
     search: ''
 })

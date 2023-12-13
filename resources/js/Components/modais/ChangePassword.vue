@@ -26,7 +26,7 @@ const submit = () => {
 <template>
     <ModalLayout title="Alterar Senha" @close="close" v-show="isOpen">
         <!-- Modal body -->
-        <form class="p-4 md:p-5 flex center gap-5 flex-col" method="post" @submit.prevent="submit">
+        <form class="p-4 md:p-5 min-w-[400px] flex center gap-5 flex-col" method="post" @submit.prevent="submit">
             <Input v-model="frm.password" label="Senha:" type="password" :error="frm.errors.password" :required=true />
             <Input v-model="frm.newPassword" label="Nova Senha:" :error="frm.errors.newPassword" type="password"
                 :required=true />
@@ -35,6 +35,5 @@ const submit = () => {
 
             <BtnSuccess title="Confirmar" submit="true" aclass="w-full" />
         </form>
-
     </ModalLayout>
 </template>
